@@ -1,0 +1,207 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Financial API Tests - Fixed",
+  "dateExported": "2026-01-21T13:15:00.000Z",
+  "version": "1.2",
+  "folders": [],
+  "requests": [
+    {
+      "id": "1",
+      "name": "✅ GET - API Health Check",
+      "url": "http://localhost:3000/api/ask",
+      "method": "GET",
+      "headers": [],
+      "body": {
+        "type": "none"
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "id": "2", 
+      "name": "✅ POST - Expenses Query",
+      "url": "http://localhost:3000/api/ask",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"question\": \"What are my top expenses?\"\n}"
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.chartType",
+          "action": "equal",
+          "value": "pie"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "✅ POST - Income Query", 
+      "url": "http://localhost:3000/api/ask",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"question\": \"Show my income breakdown\"\n}"
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        },
+        {
+          "type": "json-query",
+          "custom": "json.chartType",
+          "action": "equal",
+          "value": "bar"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "✅ POST - Balance Summary",
+      "url": "http://localhost:3000/api/ask", 
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"question\": \"What is my financial summary?\"\n}"
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "❌ POST - Error Test (Empty Body)",
+      "url": "http://localhost:3000/api/ask",
+      "method": "POST", 
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{}"
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "❌ POST - Error Test (No Question)",
+      "url": "http://localhost:3000/api/ask",
+      "method": "POST", 
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"notQuestion\": \"invalid field\"\n}"
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "name": "❌ POST - Error Test (Empty Question)",
+      "url": "http://localhost:3000/api/ask",
+      "method": "POST", 
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"question\": \"\"\n}"
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "400"
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "name": "✅ POST - Custom Question",
+      "url": "http://localhost:3000/api/ask",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type", 
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"question\": \"How much did I spend on dining?\"\n}"
+      },
+      "tests": [
+        {
+          "type": "res-code",
+          "custom": "",
+          "action": "equal",
+          "value": "200"
+        }
+      ]
+    }
+  ]
+}

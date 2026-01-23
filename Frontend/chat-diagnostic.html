@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Page Diagnostic</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Chat Page Diagnostic</h1>
+        
+        <div class="status info">
+            <strong>Server Status:</strong> <span id="server-status">Checking...</span>
+        </div>
+        
+        <div class="status info">
+            <strong>API Status:</strong> <span id="api-status">Checking...</span>
+        </div>
+        
+        <div class="status info">
+            <strong>Financial Data:</strong> <span id="data-status">Checking...</span>
+        </div>
+        
+        <h2>Quick Tests</h2>
+        <button onclick="testMainPage()">Test Main Page</button>
+        <button onclick="testAPI()">Test API</button>
+        <button onclick="testFinancialData()">Test Financial Data</button>
+        
+        <div id="test-results"></div>
+        
+        <h2>Instructions</h2>
+        <div class="status info">
+            <strong>To access your chat page:</strong><br>
+            1. Open <a href="http://localhost:3000" target="_blank">http://localhost:3000</a><br>
+            2. Click on the "Chat" option in the sidebar<br>
+            3. The chat interface should load with Thesys UI integration<br><br>
+            
+            <strong>If the chat page doesn't load:</strong><br>
+            • Check the browser console for errors (F12)<br>
+            • Make sure the server is running on port 3000<br>
+            • Try refreshing the page<br>
+            • Check if there are any network errors
+        </div>
+    </div>
+
+    <script>
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('/');
+                document.getElementById('server-status').innerHTML = response.ok ? 
+                    '<span style="color: green;">✅ Running</span>' : 
+                    '<span style="color: red;">❌ Error</span>';
+            } catch (error) {
+                document.getElementById('server-status').innerHTML = '<span style="color: red;">❌ Not accessible</span>';
+            }
+        }
+
+        async function checkAPIStatus() {
+            try {
+                const response = await fetch('/api/ask', { method: 'GET' });
+                const data = await response.json();
+                document.getElementById('api-status').innerHTML = data.message ? 
+                    '<span style="color: green;">✅ Working</span>' : 
+                    '<span style="color: red;">❌ Error</span>';
+            } catch (error) {
+                document.getElementById('api-status').innerHTML = '<span style="color: red;">❌ Failed</span>';
+            }
+        }
+
+        async function checkFinancialData() {
+            try {
+                const response = await fetch('/api/transactions');
+                const data = await response.json();
+                document.getElementById('data-status').innerHTML = Array.isArray(data) ? 
+                    `<span style="color: green;">✅ ${data.length} transactions loaded</span>` : 
+                    '<span style="color: red;">❌ Invalid data</span>';
+            } catch (error) {
+                document.getElementById('data-status').innerHTML = '<span style="color: red;">❌ Failed to load</span>';
+            }
+        }
+
+        async function testMainPage() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div class="status info">Testing main page...</div>';
+            
+            try {
+                const response = await fetch('/');
+                const text = await response.text();
+                const hasReact = text.includes('react');
+                const hasFinancial = text.includes('Financial') || text.includes('financial');
+                
+                results.innerHTML = `
+                    <div class="status ${response.ok ? 'success' : 'error'}">
+                        Main Page Test: ${response.ok ? '✅ Loaded' : '❌ Failed'}<br>
+                        React App: ${hasReact ? '✅ Detected' : '❌ Not found'}<br>
+                        Financial Content: ${hasFinancial ? '✅ Found' : '❌ Not found'}
+                    </div>
+                `;
+            } catch (error) {
+                results.innerHTML = `<div class="status error">❌ Main page test failed: ${error.message}</div>`;
+            }
+        }
+
+        async function testAPI() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div class="status info">Testing API...</div>';
+            
+            try {
+                const response = await fetch('/api/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: 'What is my balance?' })
+                });
+                const data = await response.json();
+                
+                results.innerHTML = `
+                    <div class="status success">
+                        ✅ API Test Successful<br>
+                        Response: ${data.insight ? data.insight.substring(0, 100) + '...' : 'No insight'}<br>
+                        Chart Type: ${data.chartType || 'None'}<br>
+                        Data Points: ${data.data ? data.data.length : 0}
+                    </div>
+                `;
+            } catch (error) {
+                results.innerHTML = `<div class="status error">❌ API test failed: ${error.message}</div>`;
+            }
+        }
+
+        async function testFinancialData() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div class="status info">Testing financial data...</div>';
+            
+            try {
+                const response = await fetch('/api/transactions');
+                const data = await response.json();
+                
+                if (Array.isArray(data)) {
+                    const income = data.filter(t => t.type === 'income');
+                    const expenses = data.filter(t => t.type === 'expense');
+                    const totalIncome = income.reduce((sum, t) => sum + t.amount, 0);
+                    const totalExpenses = expenses.reduce((sum, t) => sum + Math.abs(t.amount), 0);
+                    
+                    results.innerHTML = `
+                        <div class="status success">
+                            ✅ Financial Data Test Successful<br>
+                            Total Transactions: ${data.length}<br>
+                            Total Income: ₹${totalIncome}<br>
+                            Total Expenses: ₹${totalExpenses}<br>
+                            Balance: ₹${totalIncome - totalExpenses}
+                        </div>
+                    `;
+                } else {
+                    results.innerHTML = '<div class="status error">❌ Invalid financial data format</div>';
+                }
+            } catch (error) {
+                results.innerHTML = `<div class="status error">❌ Financial data test failed: ${error.message}</div>`;
+            }
+        }
+
+        // Run initial checks
+        checkServerStatus();
+        checkAPIStatus();
+        checkFinancialData();
+    </script>
+</body>
+</html>

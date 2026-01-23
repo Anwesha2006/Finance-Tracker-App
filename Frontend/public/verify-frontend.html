@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend Verification</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f0f2f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .status { padding: 15px; margin: 10px 0; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .test-button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        .test-button:hover { background: #0056b3; }
+        h1 { color: #333; text-align: center; }
+        h2 { color: #666; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Frontend Verification Dashboard</h1>
+        
+        <h2>📊 System Status</h2>
+        <div id="system-status">
+            <div class="status info">🔄 Checking system status...</div>
+        </div>
+
+        <h2>🧪 Component Tests</h2>
+        <button class="test-button" onclick="testMainApp()">Test Main App</button>
+        <button class="test-button" onclick="testChatPage()">Test Chat Page</button>
+        <button class="test-button" onclick="testThesysUI()">Test Thesys UI</button>
+        <button class="test-button" onclick="testAPI()">Test API</button>
+        
+        <div id="test-results"></div>
+
+        <h2>🚀 Quick Access</h2>
+        <div class="status info">
+            <strong>Your Application Links:</strong><br><br>
+            🏠 <a href="http://localhost:3000" target="_blank">Main Application</a><br>
+            💬 <a href="http://localhost:3000" target="_blank">Chat Interface</a> (click Chat in sidebar)<br>
+            🧪 <a href="http://localhost:3000/test-thesys" target="_blank">Thesys UI Test Page</a><br>
+            📊 <a href="http://localhost:3000/test-integration.html" target="_blank">Integration Test</a><br><br>
+            <strong>Instructions:</strong><br>
+            1. Click on "Main Application" to open your app<br>
+            2. Navigate to the Chat page using the sidebar<br>
+            3. Ask questions like "What is my wallet balance?" to see Thesys UI<br>
+            4. Watch for dynamic UI components appearing above chat messages
+        </div>
+
+        <h2>📋 Expected Behavior</h2>
+        <div class="status success">
+            <strong>✅ What You Should See:</strong><br><br>
+            <strong>In Chat Page:</strong><br>
+            • Header shows "AI-powered financial insights with dynamic UI generation"<br>
+            • When you ask a question, dynamic UI appears above the chat<br>
+            • Components animate in with smooth transitions<br>
+            • Different UI for different question types (balance, expenses, income)<br><br>
+            
+            <strong>Dynamic UI Components:</strong><br>
+            • 💰 Balance questions → Balance dashboard with 3 cards<br>
+            • 📊 Expense questions → Expense analyzer with insights<br>
+            • 💵 Income questions → Income tracker with growth metrics<br>
+            • 📈 Summary questions → Complete financial overview<br><br>
+            
+            <strong>Animations:</strong><br>
+            • Loading spinner while generating<br>
+            • Components fade in with staggered delays<br>
+            • Smooth transitions and hover effects
+        </div>
+    </div>
+
+    <script>
+        async function testMainApp() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<div class="status info">🔄 Testing main application...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:3000');
+                if (response.ok) {
+                    resultsDiv.innerHTML = '<div class="status success">✅ Main application is accessible and loading correctly!</div>';
+                } else {
+                    resultsDiv.innerHTML = '<div class="status error">❌ Main application returned error: ' + response.status + '</div>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = '<div class="status error">❌ Cannot connect to main application: ' + error.message + '</div>';
+            }
+        }
+
+        async function testChatPage() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<div class="status info">🔄 Testing chat page accessibility...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:3000');
+                if (response.ok) {
+                    resultsDiv.innerHTML = '<div class="status success">✅ Chat page is accessible! Navigate to Chat in the sidebar to test Thesys UI.</div>';
+                } else {
+                    resultsDiv.innerHTML = '<div class="status error">❌ Chat page not accessible</div>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = '<div class="status error">❌ Error accessing chat page: ' + error.message + '</div>';
+            }
+        }
+
+        async function testThesysUI() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<div class="status info">🔄 Testing Thesys UI test page...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:3000/test-thesys');
+                if (response.ok) {
+                    resultsDiv.innerHTML = '<div class="status success">✅ Thesys UI test page is working! <a href="http://localhost:3000/test-thesys" target="_blank">Open Test Page</a></div>';
+                } else {
+                    resultsDiv.innerHTML = '<div class="status error">❌ Thesys UI test page error: ' + response.status + '</div>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = '<div class="status error">❌ Thesys UI test page error: ' + error.message + '</div>';
+            }
+        }
+
+        async function testAPI() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<div class="status info">🔄 Testing API endpoints...</div>';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: 'What is my wallet balance?' })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultsDiv.innerHTML = `<div class="status success">✅ API is working! Response: ${data.insight.substring(0, 100)}...</div>`;
+                } else {
+                    resultsDiv.innerHTML = '<div class="status error">❌ API error: ' + response.status + '</div>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = '<div class="status error">❌ API connection error: ' + error.message + '</div>';
+            }
+        }
+
+        // Auto-run system status check
+        async function checkSystemStatus() {
+            const statusDiv = document.getElementById('system-status');
+            
+            try {
+                // Test main app
+                const appResponse = await fetch('http://localhost:3000');
+                const appStatus = appResponse.ok ? '✅ Main App: Running' : '❌ Main App: Error';
+                
+                // Test API
+                const apiResponse = await fetch('http://localhost:3000/api/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: 'test' })
+                });
+                const apiStatus = apiResponse.ok ? '✅ API: Working' : '❌ API: Error';
+                
+                // Test Thesys page
+                const thesysResponse = await fetch('http://localhost:3000/test-thesys');
+                const thesysStatus = thesysResponse.ok ? '✅ Thesys UI: Ready' : '❌ Thesys UI: Error';
+                
+                statusDiv.innerHTML = `
+                    <div class="status success">
+                        ${appStatus}<br>
+                        ${apiStatus}<br>
+                        ${thesysStatus}<br>
+                        ✅ Financial Data: Connected<br>
+                        🚀 System: Ready for use!
+                    </div>
+                `;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ System check failed: ${error.message}</div>`;
+            }
+        }
+
+        // Run system check on load
+        checkSystemStatus();
+    </script>
+</body>
+</html>

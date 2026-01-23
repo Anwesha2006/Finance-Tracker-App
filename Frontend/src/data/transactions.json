@@ -1,0 +1,79 @@
+[
+  { "name": "Salary Deposit", "amount": 3500, "type": "income", "date": "2026-01-20" },
+  { "name": "Grocery Store", "amount": -120, "type": "expense", "date": "2026-01-19" },
+  { "name": "Electricity Bill", "amount": -90, "type": "expense", "date": "2026-01-18" },
+  { "name": "Freelance Project", "amount": 500, "type": "income", "date": "2026-01-17" },
+  { "name": "Restaurant", "amount": -45, "type": "expense", "date": "2026-01-16" },
+
+  { "name": "Internet Bill", "amount": -55, "type": "expense", "date": "2026-01-15" },
+  { "name": "Gym Membership", "amount": -40, "type": "expense", "date": "2026-01-14" },
+  { "name": "Bonus", "amount": 1200, "type": "income", "date": "2026-01-13" },
+  { "name": "Coffee Shop", "amount": -16, "type": "expense", "date": "2026-01-12" },
+  { "name": "Books", "amount": -30, "type": "expense", "date": "2026-01-11" },
+
+  { "name": "Stock Dividend", "amount": 200, "type": "income", "date": "2026-01-10" },
+  { "name": "Movie Tickets", "amount": -25, "type": "expense", "date": "2026-01-09" },
+  { "name": "Taxi Ride", "amount": -20, "type": "expense", "date": "2026-01-08" },
+  { "name": "Freelance Payment", "amount": 650, "type": "income", "date": "2026-01-07" },
+  { "name": "Dinner", "amount": -70, "type": "expense", "date": "2026-01-06" },
+
+  { "name": "Mobile Recharge", "amount": -20, "type": "expense", "date": "2026-01-05" },
+  { "name": "Rent Received", "amount": 1500, "type": "income", "date": "2026-01-04" },
+  { "name": "Water Bill", "amount": -45, "type": "expense", "date": "2026-01-03" },
+  { "name": "Snacks", "amount": -12, "type": "expense", "date": "2026-01-02" },
+  { "name": "Fuel", "amount": -65, "type": "expense", "date": "2026-01-01" },
+
+  { "name": "Consulting Fee", "amount": 900, "type": "income", "date": "2025-12-31" },
+  { "name": "Clothing", "amount": -110, "type": "expense", "date": "2025-12-30" },
+  { "name": "Online Course", "amount": -200, "type": "expense", "date": "2025-12-29" },
+  { "name": "Side Hustle", "amount": 400, "type": "income", "date": "2025-12-28" },
+  { "name": "Groceries", "amount": -140, "type": "expense", "date": "2025-12-27" },
+
+  { "name": "Medical Expense", "amount": -75, "type": "expense", "date": "2025-12-26" },
+  { "name": "Cashback", "amount": 25, "type": "income", "date": "2025-12-25" },
+  { "name": "Parking Fee", "amount": -10, "type": "expense", "date": "2025-12-24" },
+  { "name": "Dining Out", "amount": -85, "type": "expense", "date": "2025-12-23" },
+  { "name": "Project Milestone", "amount": 1100, "type": "income", "date": "2025-12-22" },
+
+  { "name": "Laptop Repair", "amount": -150, "type": "expense", "date": "2025-12-21" },
+  { "name": "Interest Earned", "amount": 120, "type": "income", "date": "2025-12-20" },
+  { "name": "Bus Pass", "amount": -35, "type": "expense", "date": "2025-12-19" },
+  { "name": "Lunch", "amount": -30, "type": "expense", "date": "2025-12-18" },
+  { "name": "Freelance Bonus", "amount": 300, "type": "income", "date": "2025-12-17" },
+
+  { "name": "Streaming Subscription", "amount": -15, "type": "expense", "date": "2025-12-16" },
+  { "name": "Gift Received", "amount": 250, "type": "income", "date": "2025-12-15" },
+  { "name": "Uber Ride", "amount": -22, "type": "expense", "date": "2025-12-14" },
+  { "name": "Office Supplies", "amount": -60, "type": "expense", "date": "2025-12-13" },
+  { "name": "Client Payment", "amount": 800, "type": "income", "date": "2025-12-12" },
+
+  { "name": "Groceries Refill", "amount": -130, "type": "expense", "date": "2025-12-11" },
+  { "name": "Electric Repair", "amount": -95, "type": "expense", "date": "2025-12-10" },
+  { "name": "Music Subscription", "amount": -10, "type": "expense", "date": "2025-12-09" },
+  { "name": "Snacks & Drinks", "amount": -18, "type": "expense", "date": "2025-12-08" },
+  { "name": "Part-time Job", "amount": 700, "type": "income", "date": "2025-12-07" },
+
+  { "name": "Car Service", "amount": -220, "type": "expense", "date": "2025-12-06" },
+  { "name": "Freelance Retainer", "amount": 1000, "type": "income", "date": "2025-12-05" },
+  { "name": "Lunch Meeting", "amount": -50, "type": "expense", "date": "2025-12-04" },
+  { "name": "Entertainment", "amount": -90, "type": "expense", "date": "2025-12-03" },
+  { "name": "Referral Bonus", "amount": 150, "type": "income", "date": "2025-12-02" },
+
+  { "name": "Fuel Refill", "amount": -70, "type": "expense", "date": "2025-12-01" },
+  { "name": "Consulting Advance", "amount": 600, "type": "income", "date": "2025-11-30" },
+  { "name": "Mobile Accessories", "amount": -45, "type": "expense", "date": "2025-11-29" },
+  { "name": "Taxi Fare", "amount": -28, "type": "expense", "date": "2025-11-28" },
+  { "name": "Festival Bonus", "amount": 900, "type": "income", "date": "2025-11-27" },
+
+  { "name": "House Cleaning", "amount": -100, "type": "expense", "date": "2025-11-26" },
+  { "name": "Workshop Payment", "amount": 450, "type": "income", "date": "2025-11-25" },
+  { "name": "Dinner Party", "amount": -150, "type": "expense", "date": "2025-11-24" },
+  { "name": "Stationery", "amount": -20, "type": "expense", "date": "2025-11-23" },
+  { "name": "Interest Credit", "amount": 80, "type": "income", "date": "2025-11-22" },
+
+  { "name": "Gadget Purchase", "amount": -300, "type": "expense", "date": "2025-11-21" },
+  { "name": "Refund", "amount": 60, "type": "income", "date": "2025-11-20" },
+  { "name": "Cafe Visit", "amount": -25, "type": "expense", "date": "2025-11-19" },
+  { "name": "Course Refund", "amount": 100, "type": "income", "date": "2025-11-18" },
+  { "name": "Monthly Salary", "amount": 3400, "type": "income", "date": "2025-11-17" }
+]
