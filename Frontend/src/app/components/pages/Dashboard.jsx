@@ -276,32 +276,32 @@ export default function Dashboard() {
                 <tbody className="text-sm">
                   {/* Real mocked entries matching user screenshot closely */}
                   <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 31</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"><span className="text-lg">☕</span> Starbucks</td>
+                    <td className="px-4 font-medium">March 23</td>
+                    <td className="px-4 font-bold flex items-center gap-2 mt-4"> Starbucks</td>
                     <td className="px-4"><span className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-500 text-[10px] px-2 py-1 rounded-full font-bold">Dining</span></td>
                     <td className="px-4 text-right font-bold">-$6.40</td>
                   </tr>
                   <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 31</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"><span className="text-lg">🚗</span> Uber</td>
+                    <td className="px-4 font-medium">March 23</td>
+                    <td className="px-4 font-bold flex items-center gap-2 mt-4"> Uber</td>
                     <td className="px-4"><span className="bg-blue-500/20 text-blue-600 dark:text-blue-500 text-[10px] px-2 py-1 rounded-full font-bold">Transportation</span></td>
                     <td className="px-4 text-right font-bold">-$18.70</td>
                   </tr>
                   <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 30</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"><span className="text-lg">📦</span> Amazon</td>
+                    <td className="px-4 font-medium">March 18</td>
+                    <td className="px-4 font-bold flex items-center gap-2 mt-4">Amazon</td>
                     <td className="px-4"><span className="bg-purple-500/20 text-purple-600 dark:text-purple-400 text-[10px] px-2 py-1 rounded-full font-bold">Shopping</span></td>
                     <td className="px-4 text-right font-bold">-$74.90</td>
                   </tr>
                   <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 30</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"><span className="text-lg">🎬</span> Netflix</td>
+                    <td className="px-4 font-medium">March 14</td>
+                    <td className="px-4 font-bold flex items-center gap-2 mt-4"> Netflix</td>
                     <td className="px-4"><span className="bg-green-500/20 text-green-600 dark:text-green-500 text-[10px] px-2 py-1 rounded-full font-bold">Subscriptions</span></td>
                     <td className="px-4 text-right font-bold">-$15.49</td>
                   </tr>
                   <tr className="hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 30</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"><span className="text-lg">🛒</span> Whole Foods</td>
+                    <td className="px-4 font-medium">March 06</td>
+                    <td className="px-4 font-bold flex items-center gap-2 mt-4"> Whole Foods</td>
                     <td className="px-4"><span className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-500 text-[10px] px-2 py-1 rounded-full font-bold">Groceries</span></td>
                     <td className="px-4 text-right font-bold">-$82.30</td>
                   </tr>

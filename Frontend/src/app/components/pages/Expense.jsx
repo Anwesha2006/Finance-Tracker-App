@@ -5,16 +5,16 @@ import { Search, Plus, X } from 'lucide-react'
 
 // Dummy historical data for filtering
 const INITIAL_TRANSACTIONS = [
-  { id: 1, name: 'Salary Deposit', amount: 3500, type: 'income', date: '2024-03-31', category: 'Salary', emoji: '💰' },
-  { id: 2, name: 'Grocery Store', amount: -125.5, type: 'expense', date: '2024-03-31', category: 'Food', emoji: '🍔' },
-  { id: 3, name: 'Electricity Bill', amount: -89.99, type: 'expense', date: '2024-03-30', category: 'Other', emoji: '⚡' },
-  { id: 4, name: 'Uber Ride', amount: -18.70, type: 'expense', date: '2024-03-30', category: 'Transport', emoji: '🚌' },
-  { id: 5, name: 'Restaurant', amount: -45.75, type: 'expense', date: '2024-03-29', category: 'Food', emoji: '🍔' },
-  { id: 6, name: 'Gas Station', amount: -52.3, type: 'expense', date: '2024-03-28', category: 'Transport', emoji: '🚌' },
-  { id: 7, name: 'Movie Tickets', amount: -30, type: 'expense', date: '2024-03-28', category: 'Fun', emoji: '🎮' },
-  { id: 8, name: 'Bookstore', amount: -45, type: 'expense', date: '2024-03-27', category: 'Education', emoji: '📚' },
-  { id: 9, name: 'Internet Bill', amount: -49.99, type: 'expense', date: '2024-03-26', category: 'Other', emoji: '🌐' },
-  { id: 10, name: 'Gym Membership', amount: -50, type: 'expense', date: '2024-03-25', category: 'Other', emoji: '💪' },
+  { id: 1, name: 'Salary Deposit', amount: 3500, type: 'income', date: '2024-03-31', category: 'Salary'  },
+  { id: 2, name: 'Grocery Store', amount: -125.5, type: 'expense', date: '2024-03-31', category: 'Food' },
+  { id: 3, name: 'Electricity Bill', amount: -89.99, type: 'expense', date: '2024-03-30', category: 'Other' },
+  { id: 4, name: 'Uber Ride', amount: -18.70, type: 'expense', date: '2024-03-30', category: 'Transport' },
+  { id: 5, name: 'Restaurant', amount: -45.75, type: 'expense', date: '2024-03-29', category: 'Food' },
+  { id: 6, name: 'Gas Station', amount: -52.3, type: 'expense', date: '2024-03-28', category: 'Transport' },
+  { id: 7, name: 'Movie Tickets', amount: -30, type: 'expense', date: '2024-03-28', category: 'Fun' },
+  { id: 8, name: 'Bookstore', amount: -45, type: 'expense', date: '2024-03-27', category: 'Education' },
+  { id: 9, name: 'Internet Bill', amount: -49.99, type: 'expense', date: '2024-03-26', category: 'Other' },
+  { id: 10, name: 'Gym Membership', amount: -50, type: 'expense', date: '2024-03-25', category: 'Other' },
 ];
 
 export default function Expense() {
@@ -163,7 +163,7 @@ export default function Expense() {
             
             <div className="flex justify-between items-center text-sm text-muted-foreground font-medium">
               <span>0% used — great start!</span>
-              <span>11 days left</span>
+              <span>1 days left</span>
             </div>
           </div>
 
