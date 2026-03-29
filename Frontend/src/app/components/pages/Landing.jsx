@@ -42,7 +42,7 @@ export default function Landing({ onNavigate }) {
     <div className="spendly-landing-page">
       {/* ── NAVBAR ── */}
       <nav id="navbar" style={{ boxShadow: isScrolled ? '0 4px 40px rgba(0,0,0,0.5)' : 'none' }}>
-        <a href="#" className="nav-logo">r4<span>rupee</span></a>
+        <a href="#" className="nav-logo">R4<span>rupee</span></a>
         
         <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`} id="nav-links">
           <li><a href="#features" onClick={() => setIsMenuOpen(false)}>Explore</a></li>
@@ -163,7 +163,7 @@ export default function Landing({ onNavigate }) {
               <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
             <div className="feature-title">Irregular income? No problem</div>
-            <p className="feature-desc">Freelance, stipend, part-time — R4Rupee adapts budgets to your actual income each month, not a fixed salary.</p>
+            <p className="feature-desc">Freelance, stipend, part-time — R4rupee adapts budgets to your actual income each month, not a fixed salary.</p>
           </div>
 
           <div className="feature-card reveal">
@@ -321,13 +321,13 @@ export default function Landing({ onNavigate }) {
       <footer>
         <div className="footer-top">
           <div>
-            <a href="#" className="footer-logo">Spend<span>ly</span></a>
+            <a href="#" className="footer-logo">R4rupee</a>
             <p className="footer-tagline">Know where your money actually goes.</p>
           </div>
          
         </div>
         <div className="footer-bottom">
-          <p className="footer-copy">© 2026 r4Rupee. All rights reserved.</p>
+          <p className="footer-copy">© 2026 R4rupee. All rights reserved.</p>
           <p className="footer-made">Made with <span>♥</span> for young India</p>
         </div>
       </footer>
