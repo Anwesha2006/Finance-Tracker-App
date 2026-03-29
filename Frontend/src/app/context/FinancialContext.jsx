@@ -16,6 +16,7 @@ export function FinancialProvider({ children }) {
   const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [user, setUser] = useState(null)
 
   // Load transactions on mount
   useEffect(() => {
@@ -144,6 +145,14 @@ export function FinancialProvider({ children }) {
     }
   }
 
+  const login = (email, password) => {
+    setUser({ email, name: email.split('@')[0], isAuthenticated: true })
+  }
+
+  const signup = (email, password, name) => {
+    setUser({ email, name: name || email.split('@')[0], isAuthenticated: true })
+  }
+
   const value = {
     transactions,
     loading,
@@ -153,6 +162,10 @@ export function FinancialProvider({ children }) {
     getIncomeSources,
     askFinancialQuestion,
     refreshData: loadTransactions,
+    user,
+    setUser,
+    login,
+    signup,
   }
 
   return (

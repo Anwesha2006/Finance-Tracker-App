@@ -145,3 +145,29 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-out;
 }
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+.animate-typing {
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  animation: typing 3s steps(40, end);
+}
+@theme {
+  --color-accent: #F5840C;
+  --font-display: 'Playfair Display', serif;
+}
+@utility animate-float {
+  animation: float 5s ease-in-out infinite;
+}

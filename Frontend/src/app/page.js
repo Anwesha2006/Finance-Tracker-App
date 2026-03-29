@@ -5,17 +5,18 @@ import Sidebar from '@/app/components/Sidebar'
 
 import Dashboard from '@/app/components/pages/Dashboard'
 import Chat from '@/app/components/pages/Chat'
-import History from '@/app/components/pages/History'
+import Expense from '@/app/components/pages/Expense'
 import Analytics from '@/app/components/pages/Analytics'
 import Wallet from '@/app/components/pages/Wallet'
 import Settings from '@/app/components/pages/Settings'
-
+import Landing from '@/app/components/pages/Landing'
+import SignIn from '@/app/components/pages/SignIn'
+import Onboarding from '@/app/components/pages/Onboarding'
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const [currentPage, setCurrentPage] = useState('dashboard')
   const [isCollapsed, setIsCollapsed] = useState(false)
-
+const[currentPage, setCurrentPage] = useState('landing')
   useEffect(() => {
     setMounted(true)
 
@@ -40,12 +41,14 @@ export default function Home() {
 
   const renderPage = () => {
     switch (currentPage) {
+      case 'landing': 
+        return <Landing />
       case 'dashboard':
         return <Dashboard />
       case 'chat':
         return <Chat />
-      case 'history':
-        return <History />
+      case 'expense':
+        return <Expense />
       case 'analytics':
         return <Analytics />
       case 'wallet':
@@ -53,11 +56,23 @@ export default function Home() {
       case 'settings':
         return <Settings />
       default:
-        return <Dashboard />
+        return <Landing />
     }
   }
 
   if (!mounted) return null
+
+  if (currentPage === 'landing') {
+    return <Landing onNavigate={setCurrentPage} />
+  }
+  
+  if (currentPage === 'signIn') {
+    return <SignIn onNavigate={setCurrentPage} />
+  }
+  
+  if (currentPage === 'onboarding') {
+    return <Onboarding onNavigate={setCurrentPage} />
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted to-background">

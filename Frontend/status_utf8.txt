@@ -1,0 +1,33 @@
+﻿On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   src/app/components/EnhancedChatUI.jsx
+	modified:   src/app/components/Sidebar.jsx
+	modified:   src/app/components/pages/Analytics.jsx
+	modified:   src/app/components/pages/Chat.jsx
+	modified:   src/app/components/pages/Dashboard.jsx
+	modified:   src/app/components/pages/Settings.jsx
+	modified:   src/app/components/pages/Wallet.jsx
+	modified:   src/app/globals.css
+	modified:   src/app/layout.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	files.txt
+	files_utf8.txt
+	src/app/components/AddExpenseForm.jsx
+	src/app/components/BillSplitter.jsx
+	src/app/components/BudgetProgress.jsx
+	src/app/components/Heatmap.jsx
+	src/app/components/TransactionTable.jsx
+	src/app/components/UpcomingBills.jsx
+	src/app/components/pages/Expenses.jsx
+	src/app/components/pages/Landing.jsx
+	src/app/components/pages/Onboarding.jsx
+	src/app/components/pages/SignIn.jsx
+	status.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")

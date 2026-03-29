@@ -31,7 +31,7 @@ export default function Sidebar({
   const menuItems = [
     { id: 'chat', label: 'Chat', icon: MessageSquare },
     { id: 'dashboard', label: 'Dashboard', icon: Home },
-    { id: 'history', label: 'History', icon: History },
+    { id: 'expense', label: 'Expenses', icon: History },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp },
     { id: 'wallet', label: 'Wallet', icon: Wallet },
     { id: 'settings', label: 'Settings', icon: Settings },
