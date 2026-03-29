@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Search, Plus, X } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Search, Plus, X, Upload, Camera, FileImage, Loader2, CheckCircle } from 'lucide-react'
 
 // Dummy historical data for filtering
 const INITIAL_TRANSACTIONS = [
@@ -22,6 +22,15 @@ export default function Expense() {
   const [searchTerm, setSearchTerm] = useState('')
   const [isAdding, setIsAdding] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('Food');
+
+  // Receipt upload state
+  const [receiptFile, setReceiptFile] = useState(null)
+  const [receiptPreview, setReceiptPreview] = useState(null)
+  const [isScanning, setIsScanning] = useState(false)
+  const [scanDone, setScanDone] = useState(false)
+  const [expenseAmount, setExpenseAmount] = useState('')
+  const [expenseNote, setExpenseNote] = useState('')
+  const fileInputRef = useRef(null)
 
   // Split Bill State
   const [splitAmount, setSplitAmount] = useState('1200');
@@ -83,6 +92,49 @@ export default function Expense() {
   const spent = 4000;
   const remaining = totalBudget - spent;
   const percentage = (spent / totalBudget) * 100;
+
+  // Receipt upload handlers
+  const handleReceiptUpload = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    setReceiptFile(file)
+    setScanDone(false)
+    setReceiptPreview(URL.createObjectURL(file))
+    simulateScan()
+  }
+
+  const handleDrop = (e) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files[0]
+    if (!file || !file.type.startsWith('image/')) return
+    setReceiptFile(file)
+    setScanDone(false)
+    setReceiptPreview(URL.createObjectURL(file))
+    simulateScan()
+  }
+
+  const simulateScan = () => {
+    setIsScanning(true)
+    setIsAdding(true)
+    // Simulate OCR parsing delay then auto-fill mock data
+    setTimeout(() => {
+      setExpenseAmount('349')
+      setExpenseNote('Swiggy Order - Burger & Fries')
+      setSelectedCategory('Food')
+      setIsScanning(false)
+      setScanDone(true)
+    }, 2000)
+  }
+
+  const clearReceipt = () => {
+    setReceiptFile(null)
+    setReceiptPreview(null)
+    setScanDone(false)
+    setIsScanning(false)
+    setExpenseAmount('')
+    setExpenseNote('')
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
 
   return (
     <div className="max-w-[1200px] mx-auto space-y-6 text-foreground pb-24 font-sans selection:bg-accent/30">
@@ -267,25 +319,65 @@ export default function Expense() {
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-lg font-bold text-foreground">{isAdding ? 'New expense' : 'Add expense'}</h2>
             </div>
-            
-            <div className="flex flex-wrap gap-2 mb-6">
-              {categories.slice(1).map(cat => (
-                <button 
-                  key={cat.name}
-                  onClick={() => { setSelectedCategory(cat.name); setIsAdding(true); }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold border transition-colors ${
-                    selectedCategory === cat.name 
-                    ? 'border-accent text-accent bg-accent/10' 
-                    : 'border-border text-muted-foreground hover:border-muted-foreground'
-                  }`}
+
+            {/* RECEIPT UPLOAD ZONE */}
+            {!receiptPreview ? (
+              <div
+                onDrop={handleDrop}
+                onDragOver={(e) => e.preventDefault()}
+                onClick={() => fileInputRef.current?.click()}
+                className="border-2 border-dashed border-border hover:border-accent/60 rounded-xl p-6 mb-5 flex flex-col items-center justify-center gap-3 cursor-pointer transition-colors group bg-background/50 hover:bg-accent/5"
+              >
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                  <Upload size={22} className="text-accent" />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-semibold text-foreground">Upload a receipt</p>
+                  <p className="text-xs text-muted-foreground mt-1">Drag & drop or click to browse · JPG, PNG, PDF</p>
+                </div>
+                <div className="flex gap-2 mt-1">
+                  <span className="flex items-center gap-1 text-xs text-muted-foreground border border-border rounded-full px-3 py-1">
+                    <Camera size={12} /> Camera
+                  </span>
+                  <span className="flex items-center gap-1 text-xs text-muted-foreground border border-border rounded-full px-3 py-1">
+                    <FileImage size={12} /> Gallery
+                  </span>
+                </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*,application/pdf"
+                  className="hidden"
+                  onChange={handleReceiptUpload}
+                />
+              </div>
+            ) : (
+              <div className="relative mb-5 rounded-xl overflow-hidden border border-border">
+                <img src={receiptPreview} alt="Receipt" className="w-full max-h-48 object-cover" />
+                {/* Scanning overlay */}
+                {isScanning && (
+                  <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-3">
+                    <Loader2 size={28} className="text-accent animate-spin" />
+                    <p className="text-white text-sm font-semibold">Scanning receipt...</p>
+                    {/* Scan line animation */}
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-accent/80 animate-scan-line" />
+                  </div>
+                )}
+                {scanDone && (
+                  <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                    <CheckCircle size={12} /> Scanned
+                  </div>
+                )}
+                <button
+                  onClick={clearReceipt}
+                  className="absolute top-2 left-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 transition-colors"
                 >
-                  <span className="text-base">{cat.emoji}</span> {cat.name}
+                  <X size={14} />
                 </button>
-              ))}
-              <button className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold border border-border text-muted-foreground hover:border-muted-foreground">
-                + Other
-              </button>
-            </div>
+              </div>
+            )}
+
+         
 
             <div className="flex flex-col gap-4">
                <div className="w-full bg-background border border-border rounded-xl flex items-center px-4 h-14 focus-within:border-accent/50 transition-colors">
@@ -293,9 +385,12 @@ export default function Expense() {
                  <input 
                    type="number" 
                    placeholder={isAdding ? "Amount" : "0"} 
+                   value={expenseAmount}
+                   onChange={(e) => setExpenseAmount(e.target.value)}
                    className="bg-transparent border-none outline-none text-xl w-full text-foreground placeholder:text-muted-foreground font-bold"
                    onFocus={() => setIsAdding(true)}
                  />
+                 {scanDone && <CheckCircle size={16} className="text-green-500 flex-shrink-0" />}
                </div>
                
                {isAdding && (
@@ -303,8 +398,11 @@ export default function Expense() {
                    <input 
                      type="text" 
                      placeholder="Note (optional)" 
+                     value={expenseNote}
+                     onChange={(e) => setExpenseNote(e.target.value)}
                      className="bg-transparent border-none outline-none text-sm w-full text-foreground placeholder:text-muted-foreground font-medium"
                    />
+                   {scanDone && <CheckCircle size={16} className="text-green-500 flex-shrink-0" />}
                  </div>
                )}
 
@@ -322,7 +420,7 @@ export default function Expense() {
                 <button className="flex-1 bg-accent hover:opacity-90 text-card font-bold h-12 rounded-xl transition-opacity">
                   Save
                 </button>
-                <button onClick={() => setIsAdding(false)} className="bg-background border border-border hover:bg-muted text-foreground font-bold h-12 px-8 rounded-xl transition-colors">
+                <button onClick={() => { setIsAdding(false); clearReceipt(); }} className="bg-background border border-border hover:bg-muted text-foreground font-bold h-12 px-8 rounded-xl transition-colors">
                   Cancel
                 </button>
               </div>
