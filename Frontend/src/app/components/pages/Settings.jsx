@@ -131,10 +131,20 @@ export default function Settings() {
 
 function Section({ title, icon, children }) {
   return (
-    <div className="bg-card border border-border rounded-lg p-6">
+    <div className="
+      bg-white/80 dark:bg-[#1a0f0f]/80 
+      backdrop-blur-md
+      border border-gray-200 dark:border-[#2a1a1a] 
+      rounded-2xl p-6 
+      shadow-lg hover:shadow-xl transition
+    ">
       <div className="flex items-center gap-3 mb-6">
-        <div className="text-accent">{icon}</div>
-        <h2 className="text-xl font-semibold">{title}</h2>
+        <div className="text-accent bg-accent/10 p-2 rounded-lg">
+          {icon}
+        </div>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+          {title}
+        </h2>
       </div>
       {children}
     </div>
@@ -144,12 +154,22 @@ function Section({ title, icon, children }) {
 function InputField({ label, type = 'text', value, onChange }) {
   return (
     <div>
-      <label className="block text-sm font-medium mb-2">{label}</label>
+      <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-[#a89f9f]">
+        {label}
+      </label>
       <input
         type={type}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-2 bg-muted border border-border rounded-lg"
+        className="
+          w-full px-4 py-3 
+          bg-white dark:bg-[#140a0a]
+          border border-gray-200 dark:border-[#2a1a1a]
+          rounded-xl 
+          text-gray-900 dark:text-white
+          focus:ring-2 focus:ring-accent focus:outline-none
+          transition
+        "
       />
     </div>
   )
@@ -158,11 +178,20 @@ function InputField({ label, type = 'text', value, onChange }) {
 function SelectField({ label, value, options, onChange }) {
   return (
     <div>
-      <label className="block text-sm font-medium mb-2">{label}</label>
+      <label className="block text-sm font-medium mb-2 text-gray-600 dark:text-[#a89f9f]">
+        {label}
+      </label>
       <select
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-2 bg-muted border border-border rounded-lg"
+        className="
+          w-full px-4 py-3 
+          bg-white dark:bg-[#140a0a]
+          border border-gray-200 dark:border-[#2a1a1a]
+          rounded-xl 
+          text-gray-900 dark:text-white
+          focus:ring-2 focus:ring-accent focus:outline-none
+        "
       >
         {options.map(([val, text]) => (
           <option key={val} value={val}>
@@ -195,12 +224,13 @@ function ToggleSection({ icon, title, items, settings, onToggle, extraButtons })
 
         {extraButtons && (
           <>
-            <button className="w-full py-3 rounded-lg border border-border font-semibold">
+                  <button className="w-full py-3 rounded-xl border border-green-500 text-green-500 font-semibold hover:bg-green-500 hover:text-white transition">
               Change Password
             </button>
-            <button className="w-full py-3 rounded-lg border border-destructive text-destructive font-semibold">
-              Delete Account
-            </button>
+
+<button className="w-full py-3 rounded-xl border border-red-500 text-red-500 font-semibold hover:bg-red-500 hover:text-white transition">
+  Delete Account
+</button>
           </>
         )}
       </div>
@@ -210,21 +240,36 @@ function ToggleSection({ icon, title, items, settings, onToggle, extraButtons })
 
 function ToggleRow({ title, desc, enabled, onClick }) {
   return (
-    <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
+    <div className="
+      flex justify-between items-center 
+      p-4 rounded-xl
+      bg-white/70 dark:bg-[#140a0a]/70
+      border border-gray-200 dark:border-[#2a1a1a]
+      hover:bg-gray-50 dark:hover:bg-[#221212]
+      transition
+    ">
       <div>
-        <h3 className="font-medium">{title}</h3>
-        <p className="text-sm text-muted-foreground">{desc}</p>
+        <h3 className="font-medium text-gray-900 dark:text-white">
+          {title}
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-[#a89f9f]">
+          {desc}
+        </p>
       </div>
+
+      {/* Toggle */}
       <button
         onClick={onClick}
-        className={`relative inline-flex h-8 w-14 items-center rounded-full ${
-          enabled ? 'bg-accent' : 'bg-muted border border-border'
-        }`}
+        className={`
+          relative inline-flex h-8 w-14 items-center rounded-full transition
+          ${enabled ? 'bg-gradient-to-r from-orange-500 to-orange-600 shadow-md' : 'bg-gray-300 dark:bg-[#2a1a1a]'}
+        `}
       >
         <span
-          className={`inline-block h-6 w-6 bg-white rounded-full transform ${
-            enabled ? 'translate-x-7' : 'translate-x-1'
-          }`}
+          className={`
+            inline-block h-6 w-6 bg-white rounded-full transform transition
+            ${enabled ? 'translate-x-7' : 'translate-x-1'}
+          `}
         />
       </button>
     </div>

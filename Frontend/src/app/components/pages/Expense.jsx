@@ -90,22 +90,36 @@ export default function Expense() {
       {/* HEADER DIV (Search & Stats in right corner) */}
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
         <div>
-           <h1 className="text-3xl font-bold font-serif italic mb-2">Expenses</h1>
-           <p className="text-muted-foreground text-sm">Manage your budget, track expenses, and split bills seamlessly.</p>
+           <h1 className="text-3xl font-bold text-foreground">Expenses</h1>
+           <p className="text-muted-foreground text-lg">Manage your budget, track expenses, and split bills seamlessly.</p>
         </div>
         
         <div className="w-full md:w-[400px] flex flex-col gap-3">
           {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-4 top-3.5 text-muted-foreground" size={18} />
-            <input
-              type="text"
-              placeholder="Search expenses..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-11 pr-4 h-12 bg-transparent border border-border rounded-xl text-foreground outline-none focus:border-accent transition-colors text-sm"
-            />
-          </div>
+         <div className="relative">
+  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
+  
+  <input
+    type="text"
+    placeholder="Search expenses..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    className="
+      w-full pl-11 pr-4 h-12 
+      rounded-xl
+      bg-white dark:bg-gray-900
+      border border-gray-200 dark:border-gray-700
+      text-gray-800 dark:text-gray-200
+      placeholder:text-gray-400 dark:placeholder:text-gray-500
+      outline-none
+      transition-all duration-200
+      
+      focus:border-accent
+      focus:ring-2 focus:ring-accent/20
+      hover:border-gray-300 dark:hover:border-gray-600
+    "
+  />
+</div>
           
           {/* Summary Stats Under Search with highlights */}
           <div className="flex justify-between items-center text-sm font-bold bg-card border border-border rounded-xl px-5 py-3 shadow-sm">
@@ -157,26 +171,32 @@ export default function Expense() {
           <div className="pt-2">
             <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
               {categories.map((cat) => (
-                 <button 
-                   key={cat.name}
-                   onClick={() => setFilter(cat.name)}
-                   className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold border transition-colors ${
-                     filter === cat.name 
-                     ? 'border-accent bg-accent/10 text-accent' 
-                     : 'border-border text-foreground hover:bg-muted/50'
-                   }`}
-                 >
-                   {cat.emoji && <span className="text-base">{cat.emoji}</span>}
-                   {cat.name}
-                 </button>
+             <button 
+  key={cat.name}
+  onClick={() => setFilter(cat.name)}
+  className={`
+    flex-shrink-0 flex items-center gap-2 px-5 py-2.5 
+    rounded-full text-sm font-semibold 
+    transition-all duration-200 border
+
+    ${
+      filter === cat.name
+        ? "bg-accent text-white border-accent shadow-md shadow-accent/30 scale-105"
+        : "bg-white dark:bg-[#1a0f0f] text-gray-700 dark:text-[#d6cfcf] border-gray-200 dark:border-[#2a1a1a] hover:bg-gray-50 dark:hover:bg-[#221212]"
+    }
+  `}
+>
+  {cat.emoji && <span className="text-base">{cat.emoji}</span>}
+  {cat.name}
+</button>
               ))}
             </div>
           </div>
 
           {/* Transactions List */}
           <div className="bg-card border border-border rounded-xl overflow-hidden mt-2 shadow-sm">
-            <div className="grid md:grid-cols-5 p-4 bg-muted font-semibold text-[11px] uppercase tracking-wider text-muted-foreground border-b border-border">
-              <div className="col-span-2">Transaction</div>
+<div className="grid md:grid-cols-5 p-4  bg-gray-50 dark:bg-black font-semibold text-xs uppercase tracking-wide  text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700">
+                <div className="col-span-2">Transaction</div>
               <div>Category</div>
               <div className="text-right">Amount</div>
               <div className="text-right">Type</div>
@@ -192,9 +212,22 @@ export default function Expense() {
                   <div className="text-xs text-muted-foreground font-medium mt-1 ml-7">{new Date(txn.date).toLocaleDateString()}</div>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold bg-muted text-foreground px-2 py-1 rounded-md border border-border">
-                    {txn.category}
-                  </span>
+                <span className={`
+  text-xs font-medium px-2.5 py-1 rounded-full
+  ${
+    txn.category === "Food"
+      ? "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400"
+      : txn.category === "Transport"
+      ? "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+      : txn.category === "Fun"
+      ? "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
+      : txn.category === "Education"
+      ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
+      : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+  }
+`}>
+  {txn.category}
+</span>
                 </div>
                 <div
                   className={`text-right font-bold ${
@@ -204,15 +237,16 @@ export default function Expense() {
                   {txn.type === 'income' ? '+' : '-'}₹{Math.abs(txn.amount).toFixed(2)}
                 </div>
                 <div className="text-right">
-                  <span
-                    className={`px-3 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold inline-block border ${
-                      txn.type === 'income'
-                        ? 'bg-accent/10 text-accent border-accent/20'
-                        : 'bg-muted border-border text-foreground'
-                    }`}
-                  >
-                    {txn.type === 'income' ? 'Income' : 'Expense'}
-                  </span>
+                <span className={`
+  px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide
+  ${
+    txn.type === 'income'
+      ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
+      : 'bg-red-100 text-red-500 dark:bg-red-900/30 dark:text-red-400'
+  }
+`}>
+  {txn.type === 'income' ? 'Income' : 'Expense'}
+</span>
                 </div>
               </div>
             ))}
@@ -295,120 +329,172 @@ export default function Expense() {
             )}
           </div>
 
-          {/* SPLIT BILL WIDGET */}
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-md transition-all sticky top-6">
-            <div className="flex justify-between items-center mb-6">
-               <h2 className="text-lg font-bold text-foreground">Bill details</h2>
-            </div>
-            
-            <div className="flex flex-col gap-4 mb-6">
-              <div className="w-full bg-background border border-border rounded-xl flex items-center px-4 h-14 focus-within:border-accent/50 transition-colors">
-                 <span className="text-muted-foreground font-bold mr-3">₹</span>
-                 <input 
-                   type="number" 
-                   value={splitAmount}
-                   onChange={(e) => setSplitAmount(e.target.value)}
-                   className="bg-transparent border-none outline-none text-xl w-full text-foreground font-bold" 
-                 />
-               </div>
-               <div className="w-full bg-background border border-border rounded-xl flex items-center px-4 h-14 focus-within:border-accent/50 transition-colors">
-                 <input 
-                   type="text" 
-                   value={splitNote}
-                   onChange={(e) => setSplitNote(e.target.value)}
-                   className="bg-transparent border-none outline-none text-sm w-full text-foreground font-bold" 
-                 />
-               </div>
-            </div>
+ <div className="bg-white dark:bg-[#1a0f0f] border border-gray-200 dark:border-[#2a1a1a] rounded-2xl p-6 shadow-md transition-all sticky top-6">
 
-            <h3 className="text-sm font-semibold text-muted-foreground mb-3">Split mode</h3>
-            <div className="flex gap-3 mb-8">
-              <button className="flex-1 h-12 rounded-xl border border-border text-foreground font-bold bg-muted text-xs">Equal</button>
-              <button className="flex-[1.5] h-12 rounded-xl border border-border text-muted-foreground font-bold hover:bg-muted text-xs">Custom amounts</button>
-              <button className="flex-1 h-12 rounded-xl border border-border text-muted-foreground font-bold hover:bg-muted text-xs">By %</button>
-            </div>
+  {/* HEADER */}
+  <div className="flex justify-between items-center mb-6">
+    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+      Bill details
+    </h2>
+  </div>
 
-            <h3 className="text-sm font-semibold text-muted-foreground mb-4">Who's splitting?</h3>
-            <div className="space-y-4 mb-6">
-              
-              <div className="flex items-center justify-between pb-4 border-b border-border">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-accent/20 text-accent font-bold flex items-center justify-center">Y</div>
-                  <span className="font-bold flex items-center gap-2 text-foreground">You <span className="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full uppercase">paid</span></span>
-                </div>
-                <div className="font-bold text-foreground">₹{amountPerPerson.toFixed(2)}</div>
-              </div>
-              
-              {splitFriends.map((friend) => (
-                <div key={friend.id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full font-bold flex items-center justify-center ${friend.colorClass}`}>
-                      {friend.initial}
-                    </div>
-                    <span className="font-bold text-foreground">{friend.name}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className="font-bold text-foreground">₹{amountPerPerson.toFixed(2)}</span>
-                    <button onClick={() => removeFriend(friend.id)}>
-                      <X size={16} className="text-muted-foreground cursor-pointer hover:text-red-500 transition-colors" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-              
-            </div>
+  {/* INPUTS */}
+  <div className="flex flex-col gap-4 mb-6">
 
-            <button 
-              onClick={addRandomFriend}
-              className="w-full py-4 border border-border border-dashed rounded-xl text-muted-foreground font-bold hover:bg-muted transition-colors mb-6"
-            >
-              + Add person
-            </button>
+    {/* AMOUNT */}
+    <div className="w-full bg-gray-50 dark:bg-[#140a0a] border border-gray-200 dark:border-[#2a1a1a] rounded-xl flex items-center px-4 h-14 focus-within:border-accent transition">
+      <span className="text-gray-500 dark:text-[#a89f9f] font-semibold mr-3">₹</span>
+      <input 
+        type="number" 
+        value={splitAmount}
+        onChange={(e) => setSplitAmount(e.target.value)}
+        className="bg-transparent outline-none text-lg w-full text-gray-900 dark:text-white font-semibold"
+      />
+    </div>
 
-            {/* Dynamic Split Summary Footer */}
-            <div className="bg-muted/50 rounded-xl p-5 border border-border">
-               <h3 className="font-bold text-foreground mb-4">Summary</h3>
-               
-               <div className="space-y-3 pb-4 border-b border-border">
-                 {splitFriends.map((friend) => (
-                   <div key={`summary-${friend.id}`} className="flex justify-between text-sm">
-                     <div className="flex gap-2 items-center text-foreground">
-                       <div className={`w-6 h-6 rounded-full font-bold flex items-center justify-center text-xs ${friend.colorClass}`}>
-                         {friend.initial}
-                       </div> 
-                       {friend.name} owes you
-                     </div>
-                     <div className="text-accent font-bold">₹{amountPerPerson.toFixed(2)}</div>
-                   </div>
-                 ))}
-                 
-                 {splitFriends.length === 0 && (
-                   <div className="text-sm text-muted-foreground italic text-center py-2">
-                     You are paying everything entirely by yourself! Ouch 😅
-                   </div>
-                 )}
-               </div>
-               
-               <div className="pt-4 space-y-2">
-                 <div className="flex justify-between text-sm text-muted-foreground font-medium">
-                   <span>You paid</span> <span className="text-accent">₹{parsedAmount.toFixed(2)}</span>
-                 </div>
-                 <div className="flex justify-between text-sm text-muted-foreground font-medium pb-4 border-b border-border">
-                   <span>Your share</span> <span className="text-foreground">₹{amountPerPerson.toFixed(2)}</span>
-                 </div>
-                 <div className="flex justify-between font-bold pt-2 text-foreground">
-                   <span>You are owed</span> <span className="text-accent">₹{Math.max(0, youAreOwed).toFixed(2)}</span>
-                 </div>
-               </div>
-            </div>
+    {/* NOTE */}
+    <div className="w-full bg-gray-50 dark:bg-[#140a0a] border border-gray-200 dark:border-[#2a1a1a] rounded-xl flex items-center px-4 h-14 focus-within:border-accent transition">
+      <input 
+        type="text" 
+        value={splitNote}
+        onChange={(e) => setSplitNote(e.target.value)}
+        className="bg-transparent outline-none text-sm w-full text-gray-700 dark:text-[#d6cfcf]"
+      />
+    </div>
 
-            <div className="mt-8">
-              <button className="w-full bg-accent hover:opacity-90 text-card font-bold h-12 rounded-xl transition-opacity">
-                Confirm Split
-              </button>
-            </div>
-            
+  </div>
+
+  {/* SPLIT MODE */}
+  <h3 className="text-sm font-medium text-gray-500 dark:text-[#a89f9f] mb-3">
+    Split mode
+  </h3>
+
+  <div className="flex gap-3 mb-8">
+    <button className="flex-1 h-11 rounded-xl bg-accent text-white font-semibold text-sm">
+      Equal
+    </button>
+    <button className="flex-[1.5] h-11 rounded-xl border border-gray-300 dark:border-[#2a1a1a] text-gray-600 dark:text-[#d6cfcf] text-sm hover:bg-gray-50 dark:hover:bg-[#221212]">
+      Custom amounts
+    </button>
+    <button className="flex-1 h-11 rounded-xl border border-gray-300 dark:border-[#2a1a1a] text-gray-600 dark:text-[#d6cfcf] text-sm hover:bg-gray-50 dark:hover:bg-[#221212]">
+      By %
+    </button>
+  </div>
+
+  {/* PEOPLE */}
+  <h3 className="text-sm font-medium text-gray-500 dark:text-[#a89f9f] mb-4">
+    Who's splitting?
+  </h3>
+
+  <div className="space-y-4 mb-6">
+
+    {/* YOU */}
+    <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-[#2a1a1a]">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-accent/20 text-accent font-semibold flex items-center justify-center">
+          Y
+        </div>
+        <span className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+          You 
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/10 text-accent font-semibold">
+            PAID
+          </span>
+        </span>
+      </div>
+      <div className="font-semibold text-gray-900 dark:text-white">
+        ₹{amountPerPerson.toFixed(2)}
+      </div>
+    </div>
+
+    {/* FRIENDS */}
+    {splitFriends.map((friend) => (
+      <div key={friend.id} className="flex items-center justify-between">
+
+        <div className="flex items-center gap-3">
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${friend.colorClass}`}>
+            {friend.initial}
           </div>
+          <span className="font-medium text-gray-800 dark:text-[#d6cfcf]">
+            {friend.name}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <span className="font-medium text-gray-900 dark:text-white">
+            ₹{amountPerPerson.toFixed(2)}
+          </span>
+          <button onClick={() => removeFriend(friend.id)}>
+            <X size={16} className="text-gray-400 dark:text-[#a89f9f] hover:text-red-500 transition" />
+          </button>
+        </div>
+
+      </div>
+    ))}
+
+  </div>
+
+  {/* ADD PERSON */}
+  <button 
+    onClick={addRandomFriend}
+    className="w-full py-3 border border-dashed border-gray-300 dark:border-[#2a1a1a] rounded-xl text-gray-500 dark:text-[#a89f9f] font-medium hover:bg-gray-50 dark:hover:bg-[#221212] transition mb-6"
+  >
+    + Add person
+  </button>
+
+  {/* SUMMARY */}
+  <div className="bg-gray-50 dark:bg-[#140a0a] rounded-xl p-5 border border-gray-200 dark:border-[#2a1a1a]">
+
+    <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
+      Summary
+    </h3>
+
+    <div className="space-y-3 pb-4 border-b border-gray-200 dark:border-[#2a1a1a]">
+      {splitFriends.map((friend) => (
+        <div key={`summary-${friend.id}`} className="flex justify-between text-sm">
+          <div className="flex gap-2 items-center text-gray-700 dark:text-[#d6cfcf]">
+            <div className={`w-6 h-6 rounded-full text-xs flex items-center justify-center font-semibold ${friend.colorClass}`}>
+              {friend.initial}
+            </div> 
+            {friend.name} owes you
+          </div>
+          <div className="text-accent font-semibold">
+            ₹{amountPerPerson.toFixed(2)}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className="pt-4 space-y-2 text-sm">
+      <div className="flex justify-between text-gray-500 dark:text-[#a89f9f]">
+        <span>You paid</span> 
+        <span className="text-accent">₹{parsedAmount.toFixed(2)}</span>
+      </div>
+
+      <div className="flex justify-between text-gray-500 dark:text-[#a89f9f] pb-3 border-b border-gray-200 dark:border-[#2a1a1a]">
+        <span>Your share</span> 
+        <span className="text-gray-900 dark:text-white">
+          ₹{amountPerPerson.toFixed(2)}
+        </span>
+      </div>
+
+      <div className="flex justify-between font-semibold text-gray-900 dark:text-white pt-2">
+        <span>You are owed</span> 
+        <span className="text-accent">
+          ₹{Math.max(0, youAreOwed).toFixed(2)}
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  {/* BUTTON */}
+  <div className="mt-8">
+    <button className="w-full bg-accent hover:opacity-90 text-white font-semibold h-12 rounded-xl transition">
+      Confirm Split
+    </button>
+  </div>
+
+</div>
         </div>
 
       </div>
