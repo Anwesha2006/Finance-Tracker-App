@@ -43,6 +43,8 @@ const[currentPage, setCurrentPage] = useState('landing')
     switch (currentPage) {
       case 'landing': 
         return <Landing />
+      case 'onboarding':
+        return <Onboarding onNavigate={setCurrentPage} />
       case 'dashboard':
         return <Dashboard />
       case 'chat':

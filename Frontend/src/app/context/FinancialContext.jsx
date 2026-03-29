@@ -17,7 +17,7 @@ export function FinancialProvider({ children }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [user, setUser] = useState(null)
-
+const [token, setToken] = useState(null)
   // Load transactions on mount
   useEffect(() => {
     loadTransactions()
@@ -145,14 +145,31 @@ export function FinancialProvider({ children }) {
     }
   }
 
-  const login = (email, password) => {
-    setUser({ email, name: email.split('@')[0], isAuthenticated: true })
-  }
+  const login = (user, token) => {
+  setUser(user);
+  setToken(token);
+
+  localStorage.setItem("token", token); // ✅ ADD
+  localStorage.setItem("user", JSON.stringify(user)); // ✅ ADD
+};
 
   const signup = (email, password, name) => {
     setUser({ email, name: name || email.split('@')[0], isAuthenticated: true })
   }
+useEffect(() => {
+  try {
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
 
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
+    }
+  } catch (error) {
+    console.log("Error parsing user:", error);
+    localStorage.removeItem("user"); // cleanup corrupted data
+  }
+}, []);
   const value = {
     transactions,
     loading,
@@ -165,6 +182,7 @@ export function FinancialProvider({ children }) {
     user,
     setUser,
     login,
+    token,
     signup,
   }
 

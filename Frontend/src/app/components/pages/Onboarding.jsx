@@ -8,7 +8,10 @@ export default function Onboarding({ onNavigate }) {
     if (step < 4) {
       setStep(step + 1);
     } else {
-      if (onNavigate) onNavigate('dashboard');
+      // Navigate to dashboard after completing onboarding
+      if (onNavigate) {
+        onNavigate('dashboard');
+      }
     }
   };
 

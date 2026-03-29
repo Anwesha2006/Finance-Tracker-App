@@ -1,30 +1,134 @@
 'use client';
 import React, { useState } from 'react';
 import { useFinancial } from '../../context/FinancialContext';
+import {useRouter} from 'next/navigation'
 
 export default function SignIn({ onNavigate }) {
   const [isSignUp, setIsSignUp] = useState(true);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { login  } = useFinancial();
   
-  const { login, signup } = useFinancial();
+  const [formData, setFormData] = useState({
+   name: '',
+    email: '',
+    password: '',
+    
+  
+  })
+  const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const router=useRouter();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleChange = (e) => 
+  {
+    const {name,value,checked,type} = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+    
+  };
+  const validateForm = () => {
+    const newErrors = {}
+    
+    if (isSignUp && !formData.name.trim()) newErrors.name = 'Name is required'
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email'
+    }
+    if (!formData.password) {
+      newErrors.password = 'Password is required'
+    } else if (formData.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters'
+    }
+    return newErrors
+  }
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  setIsLoading(true);
+
+  try {
     if (isSignUp) {
-      signup(email, password, name);
+      // SIGN UP flow
+      const newErrors = validateForm();
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        setIsLoading(false);
+        return;
+      }
+
+      const res = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || JSON.stringify(data));
+        return;
+      }
+
+      login(data.user, data.token);
+      // New users go through onboarding
+      if (onNavigate) onNavigate('onboarding');
+
+    } else {
+      // LOGIN flow
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || 'Invalid email or password');
+        return;
+      }
+
+      login(data.user, data.token);
+      // Existing users go straight to dashboard
+      if (onNavigate) onNavigate('dashboard');
+    }
+
+  } catch (error) {
+    // If backend is not running, navigate anyway for demo purposes
+    if (isSignUp) {
       if (onNavigate) onNavigate('onboarding');
     } else {
-      login(email, password);
       if (onNavigate) onNavigate('dashboard');
+    }
+  } finally {
+    setIsLoading(false);
+  }
+};
+  const handleGoogleAuth = () => {
+    signup('google_user@gmail.com', 'oauth');
+    if (onNavigate) {
+      onNavigate('onboarding');
+    } else {
+      router.push("/onboarding");
     }
   };
 
-  const handleGoogleAuth = () => {
-    signup('google_user@gmail.com', 'oauth');
-    if (onNavigate) onNavigate('onboarding');
-  };
+ 
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A] text-[#F2EFE8] font-sans selection:bg-orange-400/30">
@@ -54,9 +158,10 @@ export default function SignIn({ onNavigate }) {
               <label className="block text-xs font-semibold text-[#8A8780] uppercase tracking-widest mb-2">Full Name</label>
               <input 
                 type="text" 
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                name="name"
+               required
+                value={formData.name}
+                onChange={handleChange}
                 className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#F5840C]/50 transition-colors"
                 placeholder="John Doe"
               />
@@ -67,9 +172,10 @@ export default function SignIn({ onNavigate }) {
             <label className="block text-xs font-semibold text-[#8A8780] uppercase tracking-widest mb-2">Email Address</label>
             <input 
               type="email" 
+              name="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#F5840C]/50 transition-colors"
               placeholder="you@example.com"
             />
@@ -82,9 +188,10 @@ export default function SignIn({ onNavigate }) {
             </div>
             <input 
               type="password" 
+              name="password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#F5840C]/50 transition-colors"
               placeholder="••••••••"
             />
@@ -94,7 +201,7 @@ export default function SignIn({ onNavigate }) {
             type="submit"
             className="w-full bg-[#F5840C] text-[#0A0A0A] font-bold py-3 rounded-lg hover:bg-[#F5840C]/90 hover:shadow-[0_4px_20px_rgba(245,132,12,0.3)] transition-all mt-4"
           >
-            {isSignUp ? 'Sign Up' : 'Sign In'}
+            {isSignUp ? 'Sign Up' : 'Log In'}
           </button>
         </form>
 
