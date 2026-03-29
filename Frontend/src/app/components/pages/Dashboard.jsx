@@ -126,7 +126,7 @@ export default function Dashboard() {
       
       {/* HEADER */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold font-serif italic mb-1">Good evening, {userName} 🍻</h1>
+        <h1 className="text-2xl font-bold font-serif italic mb-1">Good evening, {userName} </h1>
         <p className="text-muted-foreground text-sm">Your finances are looking healthy this month.</p>
       </div>
 

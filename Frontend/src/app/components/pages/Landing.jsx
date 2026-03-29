@@ -76,7 +76,7 @@ export default function Landing({ onNavigate }) {
         <div className="hero-left">
           <div className="hero-eyebrow fade-up delay-1">AI-powered finance tracker</div>
           <h1 className="hero-headline fade-up delay-2">
-            Know where<br/>your money<br/><em className="accent">actually</em> goes.
+            Know where your money <em className="accent">actually</em> goes.
           </h1>
           <p className="hero-sub fade-up delay-3">
             AI-powered finance for students, hustlers &amp; first jobbers. Smart budgets, clear goals, no guilt.
@@ -88,77 +88,32 @@ export default function Landing({ onNavigate }) {
             <a href="#how" className="btn-ghost">Watch how it works →</a>
           </div>
         </div>
-
-        <div className="hero-right fade-up delay-5">
-          <div className="dashboard-card">
-            <div className="card-header">
-              <span className="card-label">Net worth</span>
-              <span className="card-badge">This month</span>
-            </div>
-            <div className="card-balance">₹34,820</div>
-            <div className="card-change">↑ ₹2,340 from last month</div>
-
-            <div className="donut-wrap">
-              <div className="donut"></div>
-              <div className="donut-legend">
-                <div className="legend-item"><span className="legend-dot" style={{ background: '#F5840C' }}></span> Food &amp; delivery</div>
-                <div className="legend-item"><span className="legend-dot" style={{ background: '#5cc97e' }}></span> Savings</div>
-                <div className="legend-item"><span className="legend-dot" style={{ background: '#4a9ddf' }}></span> Transport</div>
-                <div className="legend-item"><span className="legend-dot" style={{ background: '#8b6cf5' }}></span> Others</div>
-              </div>
-            </div>
-
-            <div className="txn-list">
-              <div className="txn-row">
-                <div className="txn-left">
-                  <div className="txn-icon" style={{ background: 'rgba(245,132,12,0.15)' }}>🛵</div>
-                  <div><div className="txn-name">Swiggy</div><div className="txn-cat">Food delivery</div></div>
-                </div>
-                <div className="txn-amount neg">−₹249</div>
-              </div>
-              <div className="txn-row">
-                <div className="txn-left">
-                  <div className="txn-icon" style={{ background: 'rgba(92,201,126,0.12)' }}>🎵</div>
-                  <div><div className="txn-name">Spotify</div><div className="txn-cat">Entertainment</div></div>
-                </div>
-                <div className="txn-amount neg">−₹119</div>
-              </div>
-              <div className="txn-row">
-                <div className="txn-left">
-                  <div className="txn-icon" style={{ background: 'rgba(92,201,126,0.15)' }}>💼</div>
-                  <div><div className="txn-name">Salary credit</div><div className="txn-cat">Income</div></div>
-                </div>
-                <div className="txn-amount pos">+₹18,000</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ── TICKER ── */}
       <div className="ticker">
         <div className="ticker-inner" aria-hidden="true">
-          <span className="ticker-item">IIT Delhi<span>✦</span></span>
-          <span className="ticker-item">BITS Pilani<span>✦</span></span>
-          <span className="ticker-item">Manipal<span>✦</span></span>
-          <span className="ticker-item">VIT<span>✦</span></span>
-          <span className="ticker-item">Christ University<span>✦</span></span>
-          <span className="ticker-item">Delhi University<span>✦</span></span>
+          <span className="ticker-item">RazorPay<span>✦</span></span>
+          <span className="ticker-item">Stripe<span>✦</span></span>
+          <span className="ticker-item">ChimeFin<span>✦</span></span>
+          <span className="ticker-item">CashFlow<span>✦</span></span>
+          <span className="ticker-item">Upstox<span>✦</span></span>
+          <span className="ticker-item">CRED<span>✦</span></span>
           <span className="ticker-item">Symbiosis<span>✦</span></span>
-          <span className="ticker-item">NIT Trichy<span>✦</span></span>
+          <span className="ticker-item">GUMROAD<span>✦</span></span>
           <span className="ticker-item">SRCC<span>✦</span></span>
-          <span className="ticker-item">Jadavpur University<span>✦</span></span>
+          <span className="ticker-item">Parafin<span>✦</span></span>
           
-          <span className="ticker-item">IIT Delhi<span>✦</span></span>
-          <span className="ticker-item">BITS Pilani<span>✦</span></span>
-          <span className="ticker-item">Manipal<span>✦</span></span>
-          <span className="ticker-item">VIT<span>✦</span></span>
-          <span className="ticker-item">Christ University<span>✦</span></span>
-          <span className="ticker-item">Delhi University<span>✦</span></span>
+          <span className="ticker-item">RazorPay<span>✦</span></span>
+          <span className="ticker-item">Stripe<span>✦</span></span>
+          <span className="ticker-item">ChimeFin<span>✦</span></span>
+          <span className="ticker-item">CashFlow<span>✦</span></span>
+          <span className="ticker-item">Upstox<span>✦</span></span>
+          <span className="ticker-item">CRED<span>✦</span></span>
           <span className="ticker-item">Symbiosis<span>✦</span></span>
-          <span className="ticker-item">NIT Trichy<span>✦</span></span>
+          <span className="ticker-item">GUMROAD<span>✦</span></span>
           <span className="ticker-item">SRCC<span>✦</span></span>
-          <span className="ticker-item">Jadavpur University<span>✦</span></span>
+          <span className="ticker-item">Parafin<span>✦</span></span>
         </div>
       </div>
 
@@ -208,7 +163,7 @@ export default function Landing({ onNavigate }) {
               <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
             <div className="feature-title">Irregular income? No problem</div>
-            <p className="feature-desc">Freelance, stipend, part-time — Spendly adapts budgets to your actual income each month, not a fixed salary.</p>
+            <p className="feature-desc">Freelance, stipend, part-time — R4Rupee adapts budgets to your actual income each month, not a fixed salary.</p>
           </div>
 
           <div className="feature-card reveal">
@@ -372,7 +327,7 @@ export default function Landing({ onNavigate }) {
          
         </div>
         <div className="footer-bottom">
-          <p className="footer-copy">© 2026 Spendly. All rights reserved.</p>
+          <p className="footer-copy">© 2026 r4Rupee. All rights reserved.</p>
           <p className="footer-made">Made with <span>♥</span> for young India</p>
         </div>
       </footer>
