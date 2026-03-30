@@ -131,7 +131,7 @@ export default function Dashboard() {
       
       {/* HEADER */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold font-serif italic mb-1">Good evening, {userName} </h1>
+        <h1 className="text-2xl font-bold font-serif italic mb-1">Good Afternoon, {userName} </h1>
         <p className="text-muted-foreground text-sm">Your finances are looking healthy this month.</p>
       </div>
 
@@ -151,7 +151,7 @@ export default function Dashboard() {
                 <span className="text-[10px] bg-green-500/20 text-green-500 px-2 py-0.5 rounded-full font-bold ml-2 uppercase tracking-wide">SAFE</span>
               </div>
               <h2 className="text-4xl font-bold tracking-tight mb-2">
-                ${summary.totalBalance > 0 ? summary.totalBalance.toFixed(0) : '1,260'}
+                ₹{summary.totalBalance > 0 ? summary.totalBalance.toFixed(0) : '1,260'}
               </h2>
               <div className="text-xs font-medium text-green-500 bg-green-500/10 inline-flex items-center px-1.5 py-0.5 rounded-sm">
                 ↑ 9% vs last month
@@ -213,7 +213,7 @@ export default function Dashboard() {
                       <p className="text-[9px] text-muted-foreground">Renews tomorrow.</p>
                     </div>
                   </div>
-                  <span className="text-xs font-bold">$10.99</span>
+                  <span className="text-xs font-bold">10.99</span>
                 </div>
                 <div className="flex justify-between items-center text-muted-foreground">
                   <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export default function Dashboard() {
                       <p className="text-[9px]">Renews in 5 days.</p>
                     </div>
                   </div>
-                  <span className="text-xs font-bold">$2.99</span>
+                  <span className="text-xs font-bold">₹2.99</span>
                 </div>
               </div>
             </div>
@@ -237,7 +237,7 @@ export default function Dashboard() {
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between items-center">
                      <p className="text-[10px] font-bold">Entertainment</p>
-                     <span className="text-[10px] text-destructive bg-destructive/10 px-1 rounded-sm">$18 left</span>
+                     <span className="text-[10px] text-destructive bg-destructive/10 px-1 rounded-sm">₹18 left</span>
                   </div>
                   <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
                     <div className="bg-destructive h-full rounded-full" style={{ width: '91%' }}></div>
@@ -246,7 +246,7 @@ export default function Dashboard() {
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between items-center">
                      <p className="text-[10px] font-bold">Transport</p>
-                     <span className="text-[10px] text-accent bg-accent/10 px-1 rounded-sm">$36 left</span>
+                     <span className="text-[10px] text-accent bg-accent/10 px-1 rounded-sm">₹36 left</span>
                   </div>
                   <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
                     <div className="bg-accent h-full rounded-full" style={{ width: '84%' }}></div>
@@ -284,31 +284,31 @@ export default function Dashboard() {
                     <td className="px-4 font-medium">March 23</td>
                     <td className="px-4 font-bold flex items-center gap-2 mt-4"> Starbucks</td>
                     <td className="px-4"><span className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-500 text-[10px] px-2 py-1 rounded-full font-bold">Dining</span></td>
-                    <td className="px-4 text-right font-bold">-$6.40</td>
+                    <td className="px-4 text-right font-bold">-₹6.40</td>
                   </tr>
                   <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
                     <td className="px-4 font-medium">March 23</td>
                     <td className="px-4 font-bold flex items-center gap-2 mt-4"> Uber</td>
                     <td className="px-4"><span className="bg-blue-500/20 text-blue-600 dark:text-blue-500 text-[10px] px-2 py-1 rounded-full font-bold">Transportation</span></td>
-                    <td className="px-4 text-right font-bold">-$18.70</td>
+                    <td className="px-4 text-right font-bold">-₹18.70</td>
                   </tr>
                   <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
                     <td className="px-4 font-medium">March 18</td>
                     <td className="px-4 font-bold flex items-center gap-2 mt-4">Amazon</td>
                     <td className="px-4"><span className="bg-purple-500/20 text-purple-600 dark:text-purple-400 text-[10px] px-2 py-1 rounded-full font-bold">Shopping</span></td>
-                    <td className="px-4 text-right font-bold">-$74.90</td>
+                    <td className="px-4 text-right font-bold">-₹74.90</td>
                   </tr>
                   <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
                     <td className="px-4 font-medium">March 14</td>
                     <td className="px-4 font-bold flex items-center gap-2 mt-4"> Netflix</td>
                     <td className="px-4"><span className="bg-green-500/20 text-green-600 dark:text-green-500 text-[10px] px-2 py-1 rounded-full font-bold">Subscriptions</span></td>
-                    <td className="px-4 text-right font-bold">-$15.49</td>
+                    <td className="px-4 text-right font-bold">-₹15.49</td>
                   </tr>
                   <tr className="hover:bg-muted/50 transition-colors h-14">
                     <td className="px-4 font-medium">March 06</td>
                     <td className="px-4 font-bold flex items-center gap-2 mt-4"> Whole Foods</td>
                     <td className="px-4"><span className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-500 text-[10px] px-2 py-1 rounded-full font-bold">Groceries</span></td>
-                    <td className="px-4 text-right font-bold">-$82.30</td>
+                    <td className="px-4 text-right font-bold">-₹82.30</td>
                   </tr>
                 </tbody>
               </table>
@@ -326,7 +326,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground mb-3">
                 <ArrowDown size={14} className="text-accent" /> Income
               </div>
-              <h3 className="text-2xl font-bold mb-2">$4,800</h3>
+              <h3 className="text-2xl font-bold mb-2">₹4,800</h3>
               <div className="text-[10px] font-bold text-green-500 bg-green-500/10 inline-flex items-center px-1.5 py-0.5 rounded-sm">
                 ↑ 2% vs last month
               </div>
@@ -336,7 +336,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground mb-3">
                 <ArrowUp size={14} className="text-destructive" /> Expense
               </div>
-              <h3 className="text-2xl font-bold mb-2">$3,560</h3>
+              <h3 className="text-2xl font-bold mb-2">₹3,560</h3>
               <div className="text-[10px] font-bold text-destructive bg-destructive/10 inline-flex items-center px-1.5 py-0.5 rounded-sm">
                 ↓ 4% vs last month
               </div>
@@ -356,7 +356,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground mb-3">
                 <Wallet size={14} className="text-purple-500" /> Remaining
               </div>
-              <h3 className="text-2xl font-bold mb-2">$1,240</h3>
+              <h3 className="text-2xl font-bold mb-2">₹1,240</h3>
               <div className="text-[9px] text-muted-foreground">Safe until next payday</div>
             </div>
           </div>
@@ -375,7 +375,7 @@ export default function Dashboard() {
                   <span>Housing</span>
                   <span className="text-muted-foreground">39%</span>
                 </div>
-                <div className="text-[10px] text-muted-foreground mb-2">$1,650</div>
+                <div className="text-[10px] text-muted-foreground mb-2">₹1,650</div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div className="bg-green-500 h-full rounded-full" style={{ width: '39%' }}></div>
                 </div>
@@ -386,7 +386,7 @@ export default function Dashboard() {
                   <span>Food & Dining</span>
                   <span className="text-muted-foreground">18%</span>
                 </div>
-                <div className="text-[10px] text-muted-foreground mb-2">$780</div>
+                <div className="text-[10px] text-muted-foreground mb-2">₹780</div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div className="bg-orange-500 h-full rounded-full" style={{ width: '18%' }}></div>
                 </div>
@@ -397,7 +397,7 @@ export default function Dashboard() {
                   <span>Transportation</span>
                   <span className="text-muted-foreground">13%</span>
                 </div>
-                <div className="text-[10px] text-muted-foreground mb-2">$540</div>
+                <div className="text-[10px] text-muted-foreground mb-2">₹540</div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div className="bg-blue-500 h-full rounded-full" style={{ width: '13%' }}></div>
                 </div>
@@ -408,7 +408,7 @@ export default function Dashboard() {
                   <span>Entertainment</span>
                   <span className="text-muted-foreground">10%</span>
                 </div>
-                <div className="text-[10px] text-muted-foreground mb-2">$420</div>
+                <div className="text-[10px] text-muted-foreground mb-2">₹420</div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div className="bg-pink-500 h-full rounded-full" style={{ width: '10%' }}></div>
                 </div>
@@ -419,7 +419,7 @@ export default function Dashboard() {
                   <span>Shopping</span>
                   <span className="text-muted-foreground">8%</span>
                 </div>
-                <div className="text-[10px] text-muted-foreground mb-2">$330</div>
+                <div className="text-[10px] text-muted-foreground mb-2">₹330</div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div className="bg-orange-400 h-full rounded-full" style={{ width: '8%' }}></div>
                 </div>
@@ -430,7 +430,7 @@ export default function Dashboard() {
                   <span>Subscriptions</span>
                   <span className="text-muted-foreground">5%</span>
                 </div>
-                <div className="text-[10px] text-muted-foreground mb-2">$210</div>
+                <div className="text-[10px] text-muted-foreground mb-2">₹210</div>
                 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                   <div className="bg-teal-500 h-full rounded-full" style={{ width: '5%' }}></div>
                 </div>
