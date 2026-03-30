@@ -64,7 +64,7 @@ export default function SignIn({ onNavigate }) {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/auth/signup", {
+      const res = await fetch("http://localhost:5000/api/v1/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -81,13 +81,22 @@ export default function SignIn({ onNavigate }) {
         return;
       }
 
-      login(data.user, data.token);
-      // New users go through onboarding
+      // Register doesn't return a token — auto-login after register
+      const loginRes = await fetch("http://localhost:5000/api/v1/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email, password: formData.password }),
+      });
+      const loginData = await loginRes.json();
+      if (loginRes.ok) {
+        login(loginData.data.user, loginData.data.accessToken);
+      }
+
       if (onNavigate) onNavigate('onboarding');
 
     } else {
       // LOGIN flow
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("http://localhost:5000/api/v1/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -103,8 +112,8 @@ export default function SignIn({ onNavigate }) {
         return;
       }
 
-      login(data.user, data.token);
-      // Existing users go straight to dashboard
+      // Backend wraps response in { data: { user, accessToken, refreshToken } }
+      login(data.data.user, data.data.accessToken);
       if (onNavigate) onNavigate('dashboard');
     }
 

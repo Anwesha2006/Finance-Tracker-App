@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { Search, Plus, X, Upload, Camera, FileImage, Loader2, CheckCircle } from 'lucide-react'
+import { useFinancial } from '../../context/FinancialContext'
 
 // Dummy historical data for filtering
 const INITIAL_TRANSACTIONS = [
@@ -18,10 +19,13 @@ const INITIAL_TRANSACTIONS = [
 ];
 
 export default function Expense() {
+  const { addTransaction, transactions: backendTxns, loading } = useFinancial()
   const [filter, setFilter] = useState('All')
   const [searchTerm, setSearchTerm] = useState('')
-  const [isAdding, setIsAdding] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('Food');
+  const [isAdding, setIsAdding] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState('Food')
+  const [isSaving, setIsSaving] = useState(false)
+  const [saveError, setSaveError] = useState('')
 
   // Receipt upload state
   const [receiptFile, setReceiptFile] = useState(null)
@@ -79,7 +83,17 @@ export default function Expense() {
     { name: 'Other', emoji: '📦' },
   ]
 
-  const filteredTransactions = INITIAL_TRANSACTIONS.filter((txn) => {
+  // Use backend transactions if available, else fall back to dummy data
+  const allTransactions = backendTxns.length > 0 ? backendTxns.map(t => ({
+    id: t._id,
+    name: t.name,
+    amount: t.type === 'expense' ? -Math.abs(t.amount) : t.amount,
+    type: t.type,
+    date: t.date,
+    category: t.category?.name || t.category || 'Other',
+  })) : INITIAL_TRANSACTIONS
+
+  const filteredTransactions = allTransactions.filter((txn) => {
     const matchesFilter = filter === 'All' || txn.category === filter
     const matchesSearch =
       txn.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -87,7 +101,28 @@ export default function Expense() {
     return matchesFilter && matchesSearch
   })
 
-  // Mock Math for Budget
+  const handleSaveExpense = async () => {
+    if (!expenseAmount) return
+    setSaveError('')
+    setIsSaving(true)
+    try {
+      await addTransaction({
+        name: expenseNote || selectedCategory + ' expense',
+        category: selectedCategory,
+        amount: parseFloat(expenseAmount),
+        type: 'expense',
+        date: new Date().toISOString(),
+        note: expenseNote,
+      })
+      // Reset form
+      setIsAdding(false)
+      clearReceipt()
+    } catch (err) {
+      setSaveError(err.message || 'Failed to save. Check your connection.')
+    } finally {
+      setIsSaving(false)
+    }
+  }
   const totalBudget = 12000;
   const spent = 4000;
   const remaining = totalBudget - spent;
@@ -417,14 +452,19 @@ export default function Expense() {
             
             {isAdding && (
               <div className="flex gap-3 mt-6">
-                <button className="flex-1 bg-accent hover:opacity-90 text-card font-bold h-12 rounded-xl transition-opacity">
-                  Save
+                <button 
+                  onClick={handleSaveExpense}
+                  disabled={isSaving || !expenseAmount}
+                  className="flex-1 bg-accent hover:opacity-90 text-card font-bold h-12 rounded-xl transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {isSaving ? <><Loader2 size={16} className="animate-spin" /> Saving...</> : 'Save'}
                 </button>
                 <button onClick={() => { setIsAdding(false); clearReceipt(); }} className="bg-background border border-border hover:bg-muted text-foreground font-bold h-12 px-8 rounded-xl transition-colors">
                   Cancel
                 </button>
               </div>
             )}
+            {saveError && <p className="text-red-500 text-xs mt-2">{saveError}</p>}
           </div>
 
  <div className="bg-white dark:bg-[#1a0f0f] border border-gray-200 dark:border-[#2a1a1a] rounded-2xl p-6 shadow-md transition-all sticky top-6">

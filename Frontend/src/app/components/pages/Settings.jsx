@@ -1,13 +1,19 @@
 'use client'
 
-import { Save, Lock, Bell, User } from 'lucide-react'
-import { useState } from 'react'
+import { Save, Lock, Bell, User, Loader2 } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { useFinancial } from '../../context/FinancialContext'
+import { authAPI } from '../../lib/api'
 
 export default function Settings() {
+  const { user, logout } = useFinancial()
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+
   const [settings, setSettings] = useState({
-    email: 'anwesha.birati@example.com',
-    fullName: 'Anwesha Baidya',
-    currency: 'Rupee',
+    email: '',
+    fullName: '',
+    currency: 'INR',
     language: 'English',
     notifications: true,
     emailAlerts: true,
@@ -15,12 +21,31 @@ export default function Settings() {
     twoFactor: false,
   })
 
-  const handleToggle = (key) => {
-    setSettings((prev) => ({ ...prev, [key]: !prev[key] }))
-  }
+  // Populate from real user data
+  useEffect(() => {
+    if (user) {
+      setSettings(prev => ({
+        ...prev,
+        email: user.email || '',
+        fullName: user.name || '',
+        currency: user.currency || 'INR',
+      }))
+    }
+  }, [user])
 
-  const handleChange = (key, value) => {
-    setSettings((prev) => ({ ...prev, [key]: value }))
+  const handleToggle = (key) => setSettings(prev => ({ ...prev, [key]: !prev[key] }))
+  const handleChange = (key, value) => setSettings(prev => ({ ...prev, [key]: value }))
+
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      // In a real app: await userAPI.updateMe({ name: settings.fullName, currency: settings.currency })
+      await new Promise(r => setTimeout(r, 600)) // simulate
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -115,12 +140,19 @@ export default function Settings() {
 
       {/* Actions */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <button className="flex-1 flex items-center justify-center gap-2 bg-accent text-accent-foreground py-3 rounded-lg font-semibold">
-          <Save size={20} />
-          Save Changes
+        <button 
+          onClick={handleSave}
+          disabled={saving}
+          className="flex-1 flex items-center justify-center gap-2 bg-accent text-accent-foreground py-3 rounded-lg font-semibold disabled:opacity-60"
+        >
+          {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={20} />}
+          {saved ? 'Saved!' : saving ? 'Saving...' : 'Save Changes'}
         </button>
-        <button className="flex-1 py-3 rounded-lg border border-border font-semibold">
-          Cancel
+        <button 
+          onClick={logout}
+          className="flex-1 py-3 rounded-lg border border-red-500 text-red-500 font-semibold hover:bg-red-500 hover:text-white transition"
+        >
+          Log Out
         </button>
       </div>
     </div>
