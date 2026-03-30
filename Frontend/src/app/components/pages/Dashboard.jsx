@@ -119,7 +119,12 @@ export default function Dashboard() {
 
   const summary = getFinancialSummary();
   const categories = getExpenseCategories();
-  const userName = user?.name || "there";
+
+  // user from context may still be null on first render — fall back to localStorage
+  const storedUser = typeof window !== 'undefined'
+    ? (() => { try { return JSON.parse(localStorage.getItem('user')) } catch { return null } })()
+    : null
+  const userName = user?.name || storedUser?.name || "there";
 
   return (
     <div className="max-w-[1400px] mx-auto space-y-6 text-foreground pb-12 font-sans">
