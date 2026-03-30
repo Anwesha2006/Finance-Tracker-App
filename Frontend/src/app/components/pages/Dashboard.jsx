@@ -119,7 +119,7 @@ export default function Dashboard() {
 
   const summary = getFinancialSummary();
   const categories = getExpenseCategories();
-  const userName = user?.name || "Hazian";
+  const userName = user?.name || "there";
 
   return (
     <div className="max-w-[1400px] mx-auto space-y-6 text-foreground pb-12 font-sans">
