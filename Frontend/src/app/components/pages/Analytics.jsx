@@ -16,23 +16,56 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 
-export default function Analytics() {
-  const expenseByCategory = [
-    { name: 'Groceries', value: 450, fill: '#00ff00' },
-    { name: 'Utilities', value: 200, fill: '#4ade80' },
-    { name: 'Transport', value: 300, fill: '#22c55e' },
-    { name: 'Entertainment', value: 150, fill: '#16a34a' },
-    { name: 'Other', value: 150, fill: '#15803d' },
-  ]
+import { useFinancial } from '../../context/FinancialContext'
 
-  const monthlyTrend = [
-    { month: 'Jan', income: 4000, expense: 2400 },
-    { month: 'Feb', income: 3800, expense: 2210 },
-    { month: 'Mar', income: 4200, expense: 2290 },
-    { month: 'Apr', income: 3900, expense: 2000 },
-    { month: 'May', income: 4300, expense: 2181 },
-    { month: 'Jun', income: 4500, expense: 2500 },
-  ]
+export default function Analytics() {
+  const { transactions, getExpenseCategories } = useFinancial();
+  const rawCategories = getExpenseCategories();
+
+  // Map backend categories to recharts format with matching colors
+  const getHexColor = (label) => {
+    switch(label) {
+      case 'Food': return '#f97316';
+      case 'Transport': return '#3b82f6';
+      case 'Fun': return '#a855f7';
+      case 'Education': return '#22c55e';
+      case 'Housing': return '#10b981';
+      case 'Shopping': return '#ec4899';
+      case 'Subscriptions': return '#14b8a6';
+      default: return '#9ca3af';
+    }
+  };
+
+  const expenseByCategory = rawCategories.map(cat => ({
+    name: cat.label,
+    value: cat.value,
+    fill: getHexColor(cat.label)
+  })).filter(c => c.value > 0); // Only show categories on Pie Chart that have actual spending
+
+  // Monthly trend mapped dynamically from transactions
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const trendMap = {};
+  transactions.forEach(t => {
+    const d = new Date(t.date);
+    const m = monthNames[d.getMonth()];
+    if (!trendMap[m]) trendMap[m] = { month: m, income: 0, expense: 0, sort: d.getMonth() };
+    if (t.type === 'income') trendMap[m].income += Math.abs(t.amount);
+    else trendMap[m].expense += Math.abs(t.amount);
+  });
+
+  const monthlyTrend = Object.values(trendMap).map(m => ({
+    ...m,
+    income: m.income > 0 ? m.income : 20000 // Apply baseline 20k application context salary
+  })).sort((a,b) => a.sort - b.sort);
+
+  if (monthlyTrend.length === 0) {
+    monthlyTrend.push({ month: monthNames[new Date().getMonth()], income: 20000, expense: 0, sort: new Date().getMonth() });
+  }
+
+  const avgMonthlyIncome = monthlyTrend.reduce((s, m) => s + m.income, 0) / monthlyTrend.length;
+  const avgMonthlyExpense = monthlyTrend.reduce((s, m) => s + m.expense, 0) / monthlyTrend.length;
+  const avgSavingsRate = avgMonthlyIncome > 0 ? (((avgMonthlyIncome - avgMonthlyExpense) / avgMonthlyIncome) * 100).toFixed(0) + '%' : '0%';
+  const highestExpenseCat = rawCategories.length > 0 && rawCategories[0].value > 0 ? rawCategories[0].label : 'None';
 
   const savingsGoal = [
     { category: 'Emergency Fund', saved: 5000, goal: 10000 },
@@ -142,10 +175,10 @@ export default function Analytics() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Metric label="Average Monthly Income" value="₹4,117" accent />
-        <Metric label="Average Monthly Expense" value="₹2,264" destructive />
-        <Metric label="Average Savings Rate" value="45%" accent />
-        <Metric label="Highest Expense" value="Groceries" />
+        <Metric label="Average Monthly Income" value={`₹${avgMonthlyIncome.toFixed(0)}`} accent />
+        <Metric label="Average Monthly Expense" value={`₹${avgMonthlyExpense.toFixed(0)}`} destructive />
+        <Metric label="Average Savings Rate" value={avgSavingsRate} accent />
+        <Metric label="Highest Expense" value={highestExpenseCat} />
       </div>
     </div>
   )

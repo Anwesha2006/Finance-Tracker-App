@@ -1,14 +1,21 @@
-import { Router } from "express";
-import { addTransaction, uploadTransactions, getTransactions } from "../controllers/transaction.controllers.js";
-import { verifyJWT } from "../middlewares/auth.middlewares.js";
-import { upload } from "../middlewares/multer.middlewares.js";
-
-const router = Router();
-
-router.use(verifyJWT);
-
-router.get("/", getTransactions);
-router.post("/add", addTransaction);
-router.post("/upload", upload.single("file"), uploadTransactions);
-
-export default router;
+const express = require("express");
+const multer = require("multer");
+const router = express.Router();
+const TransactionController = require("../controllers/transaction.controller");
+const protect = require("../middleware/auth.middleware");
+router.post("/transaction", protect , TransactionController.addTransaction);
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname);
+    }
+  });
+  
+  const upload = multer({ storage: storage });
+  
+  router.get('/transaction', protect, TransactionController.getAllTransactions);
+  router.delete('/transaction/:id', protect, TransactionController.deleteTransaction);
+  router.post('/scan', upload.single('receipt'), TransactionController.scanReceipt);
+module.exports = router;

@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useFinancial } from '../../context/FinancialContext';
+import { authAPI } from '../../lib/api';
 import {useRouter} from 'next/navigation'
 
 export default function SignIn({ onNavigate }) {
@@ -49,14 +50,12 @@ export default function SignIn({ onNavigate }) {
     }
     return newErrors
   }
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  setIsLoading(true);
+    setIsLoading(true);
 
-  try {
-    if (isSignUp) {
-      // SIGN UP flow
+    try {
       const newErrors = validateForm();
       if (Object.keys(newErrors).length > 0) {
         setErrors(newErrors);
@@ -64,70 +63,43 @@ export default function SignIn({ onNavigate }) {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/v1/users/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
+      let res;
+      if (isSignUp) {
+        const [firstName, ...rest] = formData.name.trim().split(' ')
+        const lastName = rest.join(' ')
+        res = await authAPI.register({
+          firstName,
+          lastName,
           email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || JSON.stringify(data));
-        return;
-      }
-
-      // Register doesn't return a token — auto-login after register
-      const loginRes = await fetch("http://localhost:5000/api/v1/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email, password: formData.password }),
-      });
-      const loginData = await loginRes.json();
-      if (loginRes.ok) {
-        login(loginData.data.user, loginData.data.accessToken);
-      }
-
-      if (onNavigate) onNavigate('onboarding');
-
-    } else {
-      // LOGIN flow
-      const res = await fetch("http://localhost:5000/api/v1/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+          password: formData.password
+        });
+      } else {
+        res = await authAPI.login({
           email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || 'Invalid email or password');
-        return;
+          password: formData.password
+        });
       }
 
-      // Backend wraps response in { data: { user, accessToken, refreshToken } }
-      login(data.data.user, data.data.accessToken);
-      if (onNavigate) onNavigate('dashboard');
-    }
+      const { user, token } = res;
+      if (user && token) {
+        login(user, token);
+      } else {
+        throw new Error('Invalid response from server');
+      }
 
-  } catch (error) {
-    // If backend is not running, navigate anyway for demo purposes
-    if (isSignUp) {
-      if (onNavigate) onNavigate('onboarding');
-    } else {
-      if (onNavigate) onNavigate('dashboard');
+      if (isSignUp) {
+        if (onNavigate) onNavigate('onboarding');
+      } else {
+        if (onNavigate) onNavigate('dashboard');
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+      alert(error.message || 'An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
   const handleGoogleAuth = () => {
     signup('google_user@gmail.com', 'oauth');
     if (onNavigate) {

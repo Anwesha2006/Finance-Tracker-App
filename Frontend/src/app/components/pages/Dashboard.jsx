@@ -279,37 +279,33 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-sm">
-                  {/* Real mocked entries matching user screenshot closely */}
-                  <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 23</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"> Starbucks</td>
-                    <td className="px-4"><span className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-500 text-[10px] px-2 py-1 rounded-full font-bold">Dining</span></td>
-                    <td className="px-4 text-right font-bold">-₹6.40</td>
-                  </tr>
-                  <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 23</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"> Uber</td>
-                    <td className="px-4"><span className="bg-blue-500/20 text-blue-600 dark:text-blue-500 text-[10px] px-2 py-1 rounded-full font-bold">Transportation</span></td>
-                    <td className="px-4 text-right font-bold">-₹18.70</td>
-                  </tr>
-                  <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 18</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4">Amazon</td>
-                    <td className="px-4"><span className="bg-purple-500/20 text-purple-600 dark:text-purple-400 text-[10px] px-2 py-1 rounded-full font-bold">Shopping</span></td>
-                    <td className="px-4 text-right font-bold">-₹74.90</td>
-                  </tr>
-                  <tr className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 14</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"> Netflix</td>
-                    <td className="px-4"><span className="bg-green-500/20 text-green-600 dark:text-green-500 text-[10px] px-2 py-1 rounded-full font-bold">Subscriptions</span></td>
-                    <td className="px-4 text-right font-bold">-₹15.49</td>
-                  </tr>
-                  <tr className="hover:bg-muted/50 transition-colors h-14">
-                    <td className="px-4 font-medium">March 06</td>
-                    <td className="px-4 font-bold flex items-center gap-2 mt-4"> Whole Foods</td>
-                    <td className="px-4"><span className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-500 text-[10px] px-2 py-1 rounded-full font-bold">Groceries</span></td>
-                    <td className="px-4 text-right font-bold">-₹82.30</td>
-                  </tr>
+                  {summary.transactions.length > 0 ? summary.transactions.map((txn, index) => (
+                    <tr key={txn.id || index} className="border-b border-border/50 hover:bg-muted/50 transition-colors h-14">
+                      <td className="px-4 font-medium">{new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: '2-digit' })}</td>
+                      <td className="px-4 font-bold flex items-center gap-2 mt-4">{txn.name}</td>
+                      <td className="px-4">
+                        <span className={`text-[10px] px-2 py-1 rounded-full font-bold ${(() => {
+                           const cat = txn.category || 'Other';
+                           switch(cat) {
+                             case 'Food': return 'bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400';
+                             case 'Transport': return 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400';
+                             case 'Fun': return 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400';
+                             case 'Education': return 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400';
+                             default: return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300';
+                           }
+                        })()}`}>
+                          {txn.category || 'Other'}
+                        </span>
+                      </td>
+                      <td className={`px-4 text-right font-bold ${txn.type === 'income' ? 'text-accent' : 'text-foreground'}`}>
+                        {txn.type === 'income' ? '+' : '-'}₹{Math.abs(txn.amount).toFixed(2)}
+                      </td>
+                    </tr>
+                  )) : (
+                    <tr className="border-b border-border/50 h-14">
+                      <td colSpan="4" className="px-4 text-center text-muted-foreground">No recent transactions</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -326,7 +322,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground mb-3">
                 <ArrowDown size={14} className="text-accent" /> Income
               </div>
-              <h3 className="text-2xl font-bold mb-2">₹4,800</h3>
+              <h3 className="text-2xl font-bold mb-2">₹{summary.totalIncome.toLocaleString()}</h3>
               <div className="text-[10px] font-bold text-green-500 bg-green-500/10 inline-flex items-center px-1.5 py-0.5 rounded-sm">
                 ↑ 2% vs last month
               </div>
@@ -336,7 +332,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground mb-3">
                 <ArrowUp size={14} className="text-destructive" /> Expense
               </div>
-              <h3 className="text-2xl font-bold mb-2">₹3,560</h3>
+              <h3 className="text-2xl font-bold mb-2">₹{summary.totalExpenses.toLocaleString()}</h3>
               <div className="text-[10px] font-bold text-destructive bg-destructive/10 inline-flex items-center px-1.5 py-0.5 rounded-sm">
                 ↓ 4% vs last month
               </div>
@@ -346,7 +342,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground mb-3">
                 <TrendingUp size={14} className="text-blue-500" /> Savings Ratio
               </div>
-              <h3 className="text-2xl font-bold mb-2">26%</h3>
+              <h3 className="text-2xl font-bold mb-2">{summary.totalIncome > 0 ? ((summary.totalIncome - summary.totalExpenses) / summary.totalIncome * 100).toFixed(0) : 0}%</h3>
               <div className="text-[10px] font-bold text-green-500 bg-green-500/10 inline-flex items-center px-1.5 py-0.5 rounded-sm">
                 ↑ 4% vs last month
               </div>
@@ -356,7 +352,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-1 text-xs font-semibold text-muted-foreground mb-3">
                 <Wallet size={14} className="text-purple-500" /> Remaining
               </div>
-              <h3 className="text-2xl font-bold mb-2">₹1,240</h3>
+              <h3 className="text-2xl font-bold mb-2">₹{summary.netBalance.toLocaleString()}</h3>
               <div className="text-[9px] text-muted-foreground">Safe until next payday</div>
             </div>
           </div>
@@ -369,73 +365,41 @@ export default function Dashboard() {
             </div>
 
             <div className="space-y-5">
-              
-              <div>
-                <div className="flex justify-between items-center mb-1 text-xs font-bold">
-                  <span>Housing</span>
-                  <span className="text-muted-foreground">39%</span>
-                </div>
-                <div className="text-[10px] text-muted-foreground mb-2">₹1,650</div>
-                <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="bg-green-500 h-full rounded-full" style={{ width: '39%' }}></div>
-                </div>
-              </div>
+              {categories.length > 0 ? (() => {
+                const totalCategorySum = categories.reduce((sum, cat) => sum + cat.value, 0);
+                
+                // Fixed universal UI colors so they match the Expense bubbles universally
+                const getCategoryColor = (label) => {
+                  switch(label) {
+                    case 'Food': return 'bg-orange-500';
+                    case 'Transport': return 'bg-blue-500';
+                    case 'Fun': return 'bg-purple-500';
+                    case 'Education': return 'bg-green-500';
+                    case 'Housing': return 'bg-emerald-500';
+                    case 'Shopping': return 'bg-pink-500';
+                    case 'Subscriptions': return 'bg-teal-500';
+                    default: return 'bg-gray-400'; // Other and fallbacks
+                  }
+                };
 
-              <div>
-                <div className="flex justify-between items-center mb-1 text-xs font-bold">
-                  <span>Food & Dining</span>
-                  <span className="text-muted-foreground">18%</span>
-                </div>
-                <div className="text-[10px] text-muted-foreground mb-2">₹780</div>
-                <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="bg-orange-500 h-full rounded-full" style={{ width: '18%' }}></div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1 text-xs font-bold">
-                  <span>Transportation</span>
-                  <span className="text-muted-foreground">13%</span>
-                </div>
-                <div className="text-[10px] text-muted-foreground mb-2">₹540</div>
-                <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="bg-blue-500 h-full rounded-full" style={{ width: '13%' }}></div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1 text-xs font-bold">
-                  <span>Entertainment</span>
-                  <span className="text-muted-foreground">10%</span>
-                </div>
-                <div className="text-[10px] text-muted-foreground mb-2">₹420</div>
-                <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="bg-pink-500 h-full rounded-full" style={{ width: '10%' }}></div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1 text-xs font-bold">
-                  <span>Shopping</span>
-                  <span className="text-muted-foreground">8%</span>
-                </div>
-                <div className="text-[10px] text-muted-foreground mb-2">₹330</div>
-                <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="bg-orange-400 h-full rounded-full" style={{ width: '8%' }}></div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1 text-xs font-bold">
-                  <span>Subscriptions</span>
-                  <span className="text-muted-foreground">5%</span>
-                </div>
-                <div className="text-[10px] text-muted-foreground mb-2">₹210</div>
-                <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="bg-teal-500 h-full rounded-full" style={{ width: '5%' }}></div>
-                </div>
-              </div>
-
+                return categories.map((cat, i) => {
+                  const percentage = totalCategorySum > 0 ? (cat.value / totalCategorySum) * 100 : 0;
+                  return (
+                    <div key={cat.label}>
+                      <div className="flex justify-between items-center mb-1 text-xs font-bold">
+                        <span>{cat.label}</span>
+                        <span className="text-muted-foreground">{percentage.toFixed(0)}%</span>
+                      </div>
+                      <div className="text-[10px] text-muted-foreground mb-2">₹{cat.value.toFixed(2)}</div>
+                      <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                        <div className={`${getCategoryColor(cat.label)} h-full rounded-full`} style={{ width: `${Math.min(100, Math.max(0, percentage))}%` }}></div>
+                      </div>
+                    </div>
+                  );
+                });
+              })() : (
+                <div className="text-center text-muted-foreground text-sm py-4">No spending data available.</div>
+              )}
             </div>
           </div>
           

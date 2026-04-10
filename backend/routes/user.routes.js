@@ -1,20 +1,17 @@
-import { Router } from "express";
-import {
-  registerUser,
-  loginUser,
-  logoutUser,
-  getMe,
-} from "../controllers/user.controllers.js";
-import { verifyJWT } from "../middlewares/auth.middlewares.js";
+const express = require("express");
+const router = express.Router();
 
-const router = Router();
+const UserController = require("../controllers/user.controller");
+const protect = require("../middleware/auth.middleware");
 
-// ── Public routes ─────────────────────────────────────────────────────────────
-router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.get("/", protect, UserController.getAllUsers);
 
-// ── Protected routes (require valid JWT) ──────────────────────────────────────
-router.post("/logout", verifyJWT, logoutUser);
-router.get("/me", verifyJWT, getMe);
+router.get("/profile", protect, UserController.getMyProfile);
 
-export default router;
+router.get("/:id", protect, UserController.getUserById);
+
+router.put("/:id", protect, UserController.updateUserById);
+
+router.delete("/:id", protect, UserController.deleteUserById);
+
+module.exports = router;

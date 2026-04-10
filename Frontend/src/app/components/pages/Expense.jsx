@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Search, Plus, X, Upload, Camera, FileImage, Loader2, CheckCircle } from 'lucide-react'
+import { Search, Plus, X, Upload, Camera, FileImage, Loader2, CheckCircle, Trash2 } from 'lucide-react'
 import { useFinancial } from '../../context/FinancialContext'
 
 // Dummy historical data for filtering
@@ -19,13 +19,14 @@ const INITIAL_TRANSACTIONS = [
 ];
 
 export default function Expense() {
-  const { addTransaction, transactions: backendTxns, loading } = useFinancial()
+  const { addTransaction, removeTransaction, transactions: backendTxns, loading } = useFinancial()
   const [filter, setFilter] = useState('All')
   const [searchTerm, setSearchTerm] = useState('')
   const [isAdding, setIsAdding] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('Food')
   const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
+  const [deletingId, setDeletingId] = useState(null)
 
   // Receipt upload state
   const [receiptFile, setReceiptFile] = useState(null)
@@ -44,6 +45,7 @@ export default function Expense() {
     { id: '2', name: 'Rohan', initial: 'R', colorClass: 'bg-orange-500/20 text-orange-400' },
     { id: '3', name: 'Sneha', initial: 'S', colorClass: 'bg-blue-500/20 text-blue-400' },
   ]);
+  const [isSplitting, setIsSplitting] = useState(false);
 
   // Derived Split Math Calculations (Equal Mode)
   const totalPeople = splitFriends.length + 1; // You + friends
@@ -85,7 +87,7 @@ export default function Expense() {
 
   // Use backend transactions if available, else fall back to dummy data
   const allTransactions = backendTxns.length > 0 ? backendTxns.map(t => ({
-    id: t._id,
+    id: t.id,
     name: t.name,
     amount: t.type === 'expense' ? -Math.abs(t.amount) : t.amount,
     type: t.type,
@@ -107,8 +109,8 @@ export default function Expense() {
     setIsSaving(true)
     try {
       await addTransaction({
-        name: expenseNote || selectedCategory + ' expense',
-        category: selectedCategory,
+        name: expenseNote || 'Untitled Expense',
+        category: 'Other', // Defaults to Other tightly so Smart Categorization Engine handles it
         amount: parseFloat(expenseAmount),
         type: 'expense',
         date: new Date().toISOString(),
@@ -123,10 +125,24 @@ export default function Expense() {
       setIsSaving(false)
     }
   }
-  const totalBudget = 12000;
-  const spent = 4000;
+
+  const handleDelete = async (id) => {
+    // Prevent dummy data from triggering real API calls if no backend
+    if (typeof id === 'number') return;
+    setDeletingId(id);
+    try {
+      await removeTransaction(id);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const totalBudget = 20000;
+  const spent = allTransactions.filter(t => t.type === 'expense').reduce((s,t) => s + Math.abs(t.amount), 0);
   const remaining = totalBudget - spent;
-  const percentage = (spent / totalBudget) * 100;
+  const percentage = Math.min((spent / totalBudget) * 100, 100);
 
   // Receipt upload handlers
   const handleReceiptUpload = (e) => {
@@ -170,6 +186,36 @@ export default function Expense() {
     setExpenseNote('')
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
+ const handleConfirmSplit = async () => {
+    setIsSplitting(true);
+    try {
+      const parsedAmount = Number(splitAmount);
+      if (!parsedAmount || parsedAmount <= 0) {
+        setIsSplitting(false);
+        return;
+      }
+      
+      const friendNames = splitFriends.map(f => f.name).join(', ');
+      const descText = splitNote 
+        ? `${splitNote} (Split with ${friendNames})`
+        : `Split bill with ${friendNames}`;
+
+      await addTransaction({
+        amount: parsedAmount,
+        type: "expense",
+        name: descText
+      });
+
+      // Clear the form to indicate success
+      setSplitAmount('');
+      setSplitNote('');
+    } catch (err) {
+      console.error("Failed to confirm split:", err);
+      // optionally could show an error toast
+    } finally {
+      setIsSplitting(false);
+    }
+  };
 
   return (
     <div className="max-w-[1200px] mx-auto space-y-6 text-foreground pb-24 font-sans selection:bg-accent/30">
@@ -212,12 +258,12 @@ export default function Expense() {
           <div className="flex justify-between items-center text-sm font-bold bg-card border border-border rounded-xl px-5 py-3 shadow-sm">
             <div>
               <span className="text-muted-foreground mr-2 text-xs uppercase tracking-wider">This month</span>
-              <span className="text-accent bg-accent/10 px-2 py-1 rounded-md">₹3,703</span>
+              <span className="text-accent bg-accent/10 px-2 py-1 rounded-md">₹{spent.toFixed(0)}</span>
             </div>
             <div className="w-px h-6 bg-border"></div>
             <div>
               <span className="text-muted-foreground mr-2 text-xs uppercase tracking-wider">Avg/day</span>
-              <span className="text-accent bg-accent/10 px-2 py-1 rounded-md">₹617</span>
+              <span className="text-accent bg-accent/10 px-2 py-1 rounded-md">₹{(spent / Math.max(1, new Date().getDate())).toFixed(0)}</span>
             </div>
           </div>
         </div>
@@ -228,29 +274,29 @@ export default function Expense() {
         {/* LEFT COLUMN: Budget, Search, Filters, Stats & Transactions */}
         <div className="space-y-6">
           
-          {/* MARCH BUDGET CARD */}
+          {/* BUDGET CARD */}
           <div className="bg-card border border-border rounded-2xl p-6 shadow-md relative overflow-hidden mb-8">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <div className="text-sm font-medium text-muted-foreground mb-1">March budget</div>
+                <div className="text-sm font-medium text-muted-foreground mb-1">Monthly budget</div>
                 <div className="text-2xl font-bold">
-                  ₹0 <span className="text-base font-normal text-muted-foreground">of ₹12,000</span>
+                  ₹{spent.toLocaleString()} <span className="text-base font-normal text-muted-foreground">of ₹20,000</span>
                 </div>
               </div>
               <div className="text-right">
                 <div className="text-sm font-medium text-muted-foreground mb-1">remaining</div>
-                <div className="text-2xl font-bold text-accent">₹8,000</div>
+                <div className="text-2xl font-bold text-accent">₹{Math.max(0, remaining).toLocaleString()}</div>
               </div>
             </div>
             
             {/* Progress Bar */}
             <div className="w-full h-2 bg-muted rounded-full overflow-hidden mb-3 relative">
-              <div className="absolute top-0 left-0 h-full bg-accent rounded-full" style={{ width: '0%' }}></div>
+              <div className="absolute top-0 left-0 h-full bg-accent rounded-full" style={{ width: `${percentage}%` }}></div>
             </div>
             
             <div className="flex justify-between items-center text-sm text-muted-foreground font-medium">
-              <span>0% used — great start!</span>
-              <span>1 days left</span>
+              <span>{percentage.toFixed(0)}% used</span>
+              <span>{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate() - new Date().getDate()} days left</span>
             </div>
           </div>
 
@@ -310,6 +356,12 @@ export default function Expense() {
       ? "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
       : txn.category === "Education"
       ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
+      : txn.category === "Housing"
+      ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400"
+      : txn.category === "Shopping"
+      ? "bg-pink-100 text-pink-600 dark:bg-pink-900/30 dark:text-pink-400"
+      : txn.category === "Subscriptions"
+      ? "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400"
       : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300"
   }
 `}>
@@ -323,7 +375,7 @@ export default function Expense() {
                 >
                   {txn.type === 'income' ? '+' : '-'}₹{Math.abs(txn.amount).toFixed(2)}
                 </div>
-                <div className="text-right">
+                <div className="text-right flex items-center justify-end gap-3">
                 <span className={`
   px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide
   ${
@@ -334,6 +386,9 @@ export default function Expense() {
 `}>
   {txn.type === 'income' ? 'Income' : 'Expense'}
 </span>
+                  <button onClick={() => handleDelete(txn.id)} disabled={deletingId === txn.id} className="text-gray-400 hover:text-red-500 transition-colors p-1" title="Delete Expense">
+                    {deletingId === txn.id ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                  </button>
                 </div>
               </div>
             ))}
@@ -627,8 +682,12 @@ export default function Expense() {
 
   {/* BUTTON */}
   <div className="mt-8">
-    <button className="w-full bg-accent hover:opacity-90 text-white font-semibold h-12 rounded-xl transition">
-      Confirm Split
+    <button 
+      onClick={handleConfirmSplit} 
+      disabled={isSplitting || !Number(splitAmount) || splitFriends.length === 0}
+      className="w-full bg-accent hover:opacity-90 text-white font-semibold h-12 rounded-xl transition flex justify-center items-center gap-2 disabled:opacity-50"
+    >
+      {isSplitting ? <><Loader2 size={18} className="animate-spin" /> Processing...</> : 'Confirm Split'}
     </button>
   </div>
 

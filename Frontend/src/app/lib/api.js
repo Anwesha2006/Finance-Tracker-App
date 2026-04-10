@@ -1,6 +1,6 @@
-// Central API service — all calls to http://localhost:5000/api/v1
+// Central API service — all calls to http://localhost:5000/api
 
-const BASE = 'http://localhost:5000/api/v1'
+const BASE = 'http://localhost:5000/api'
 
 function getToken() {
   if (typeof window === 'undefined') return null
@@ -44,7 +44,7 @@ async function safeFetch(url, options) {
 // ── Auth ──────────────────────────────────────────────────────────────────────
 export const authAPI = {
   register: (body) =>
-    safeFetch(`${BASE}/users/register`, {
+    safeFetch(`${BASE}/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -52,22 +52,17 @@ export const authAPI = {
     }),
 
   login: (body) =>
-    safeFetch(`${BASE}/users/login`, {
+    safeFetch(`${BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify(body),
     }),
 
-  logout: () =>
-    safeFetch(`${BASE}/users/logout`, {
-      method: 'POST',
-      headers: authHeaders(),
-      credentials: 'include',
-    }),
+  logout: () => Promise.resolve(),
 
   getMe: () =>
-    safeFetch(`${BASE}/users/me`, {
+    safeFetch(`${BASE}/users/profile`, {
       headers: authHeaders(),
       credentials: 'include',
     }),
@@ -76,21 +71,28 @@ export const authAPI = {
 // ── Transactions ──────────────────────────────────────────────────────────────
 export const transactionAPI = {
   getAll: () =>
-    safeFetch(`${BASE}/transactions`, {
+    safeFetch(`${BASE}/transaction`, {
       headers: authHeaders(),
       credentials: 'include',
     }),
 
   add: (body) =>
-    safeFetch(`${BASE}/transactions/add`, {
+    safeFetch(`${BASE}/transaction`, {
       method: 'POST',
       headers: authHeaders(),
       credentials: 'include',
       body: JSON.stringify(body),
     }),
 
+  remove: (id) =>
+    safeFetch(`${BASE}/transaction/${id}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+      credentials: 'include',
+    }),
+
   uploadCSV: (formData) =>
-    safeFetch(`${BASE}/transactions/upload`, {
+    safeFetch(`${BASE}/scan`, {
       method: 'POST',
       headers: {
         ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
