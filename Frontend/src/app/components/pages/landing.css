@@ -6,8 +6,8 @@
     --bg: #0A0A0A;
     --bg2: #111111;
     --bg3: #181818;
-    --accent: #F5840C;
-    --accent-dim: rgba(245,132,12,0.15);
+    --accent: #10B981;
+    --accent-dim: rgba(16,185,129,0.15);
     --text: #F2EFE8;
     --muted: #8A8780;
     --border: rgba(242,239,232,0.08);
@@ -53,9 +53,9 @@
     50%       { transform: rotate(2deg) translateY(-8px); }
   }
   @keyframes pulseRing {
-    0%   { box-shadow: 0 0 0 0 rgba(245,132,12,0.4); }
-    70%  { box-shadow: 0 0 0 12px rgba(245,132,12,0); }
-    100% { box-shadow: 0 0 0 0 rgba(245,132,12,0); }
+    0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+    70%  { box-shadow: 0 0 0 12px rgba(16,185,129,0); }
+    100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
   }
   @keyframes shimmer {
     0%   { background-position: -200% center; }
@@ -138,7 +138,7 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 800px; height: 800px;
-    background: radial-gradient(circle, rgba(245,132,12,0.12) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 60%);
     pointer-events: none;
   }
 
@@ -154,7 +154,7 @@
   .hero-eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--accent-dim);
-    border: 1px solid rgba(245,132,12,0.3);
+    border: 1px solid rgba(16,185,129,0.3);
     border-radius: 100px;
     padding: 4px 14px;
     font-size: 0.75rem;
@@ -210,7 +210,7 @@
     transition: transform 0.15s, box-shadow 0.15s;
     display: inline-block;
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,132,12,0.35); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(16,185,129,0.35); }
   .btn-primary:active { transform: translateY(0); }
 
   .btn-ghost {
@@ -250,7 +250,7 @@
     content: '';
     position: absolute; inset: -1px;
     border-radius: 21px;
-    background: linear-gradient(135deg, rgba(245,132,12,0.2), transparent 50%);
+    background: linear-gradient(135deg, rgba(16,185,129,0.2), transparent 50%);
     z-index: -1;
     pointer-events: none;
   }
@@ -260,7 +260,7 @@
     margin-bottom: 1.2rem;
   }
   .card-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
-  .card-badge { font-size: 0.65rem; background: rgba(245,132,12,0.15); color: var(--accent); padding: 2px 8px; border-radius: 100px; font-weight: 600; }
+  .card-badge { font-size: 0.65rem; background: rgba(16,185,129,0.15); color: var(--accent); padding: 2px 8px; border-radius: 100px; font-weight: 600; }
 
   .card-balance {
     font-family: var(--font-display);
@@ -283,7 +283,7 @@
     width: 64px; height: 64px;
     border-radius: 50%;
     background: conic-gradient(
-      #F5840C 0% 38%,
+      #10B981 0% 38%,
       #5cc97e 38% 62%,
       #4a9ddf 62% 78%,
       #8b6cf5 78% 100%
@@ -430,7 +430,7 @@
     position: absolute;
     top: 28px; left: calc(100% / 6);
     width: calc(100% * 2/3);
-    border-top: 2px dashed rgba(245,132,12,0.6);
+    border-top: 2px dashed rgba(16,185,129,0.6);
     z-index: 0;
   }
 
@@ -443,9 +443,9 @@
     right: calc(16.66% + 28px); /* End before last circle */
     height: 2px;
     background: linear-gradient(to right, 
-      rgba(245,132,12,0.6) 0%, 
-      rgba(245,132,12,0.8) 50%, 
-      rgba(245,132,12,0.6) 100%
+      rgba(16,185,129,0.6) 0%, 
+      rgba(16,185,129,0.8) 50%, 
+      rgba(16,185,129,0.6) 100%
     );
     z-index: 0;
   }
@@ -471,7 +471,7 @@
     content: '';
     position: absolute; inset: -4px;
     border-radius: 50%;
-    border: 1px solid rgba(245,132,12,0.3);
+    border: 1px solid rgba(16,185,129,0.3);
     z-index: -1;
   }
 
@@ -576,8 +576,8 @@
     transition: border-color 0.25s;
   }
   .price-card.featured {
-    border-color: rgba(245,132,12,0.5);
-    box-shadow: 0 0 40px rgba(245,132,12,0.07);
+    border-color: rgba(16,185,129,0.5);
+    box-shadow: 0 0 40px rgba(16,185,129,0.07);
   }
 
   .price-badge {
@@ -645,7 +645,7 @@
     color: #0A0A0A;
     border: none;
   }
-  .price-cta.filled:hover { box-shadow: 0 6px 24px rgba(245,132,12,0.4); transform: translateY(-1px); }
+  .price-cta.filled:hover { box-shadow: 0 6px 24px rgba(16,185,129,0.4); transform: translateY(-1px); }
 
   /* ── FINAL CTA ── */
   .final-cta {
@@ -661,7 +661,7 @@
     bottom: -200px; left: 50%;
     transform: translateX(-50%);
     width: 600px; height: 600px;
-    background: radial-gradient(ellipse, rgba(245,132,12,0.06) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(16,185,129,0.06) 0%, transparent 70%);
     pointer-events: none;
   }
 

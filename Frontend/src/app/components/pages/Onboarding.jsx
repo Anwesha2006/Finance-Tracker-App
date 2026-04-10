@@ -24,20 +24,20 @@ export default function Onboarding({ onNavigate }) {
       
       {/* Brand Header */}
       <div className="absolute top-8 left-8 text-2xl font-bold font-serif pointer-events-none">
-        r4<span className="text-[#F5840C]">rupee</span>
+        r4<span className="text-[#10B981]">rupee</span>
       </div>
 
       <div className="w-full max-w-2xl bg-[#111111] rounded-2xl border border-white/10 shadow-2xl relative overflow-hidden p-10">
         
         {/* Subtle glow effect */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#F5840C]/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#10B981]/5 rounded-full blur-3xl pointer-events-none"></div>
 
         {/* Progress bar */}
         <div className="flex items-center gap-2 mb-10 relative z-10">
           {[1, 2, 3, 4].map((s) => (
             <div key={s} className="flex-1 h-1.5 rounded-full bg-[#181818] overflow-hidden">
               <div 
-                className={`h-full ${s <= step ? 'bg-[#F5840C]' : 'bg-transparent'} transition-all duration-300`} 
+                className={`h-full ${s <= step ? 'bg-[#10B981]' : 'bg-transparent'} transition-all duration-300`} 
               ></div>
             </div>
           ))}
@@ -52,11 +52,11 @@ export default function Onboarding({ onNavigate }) {
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs font-semibold text-[#8A8780] uppercase tracking-widest mb-2">What should we call you?</label>
-                  <input type="text" className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#F5840C]/50 transition-colors" placeholder="Your name" />
+                  <input type="text" className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors" placeholder="Your name" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-[#8A8780] uppercase tracking-widest mb-2">Primary Currency</label>
-                  <select className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#F5840C]/50 transition-colors text-[#F2EFE8] appearance-none">
+                  <select className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors text-[#F2EFE8] appearance-none">
                     <option>₹ INR (Indian Rupee)</option>
                     <option>$ USD (US Dollar)</option>
                   </select>
@@ -72,7 +72,7 @@ export default function Onboarding({ onNavigate }) {
               
               <div className="grid grid-cols-2 gap-4">
                  {['Save for a trip', 'Build emergency fund', 'Pay off debt', 'Invest more', 'Track expenses', 'Other'].map(goal => (
-                   <div key={goal} className="bg-[#181818] border border-white/10 rounded-lg p-4 cursor-pointer hover:border-[#F5840C]/50 hover:bg-[#F5840C]/5 transition-all text-sm font-medium">
+                   <div key={goal} className="bg-[#181818] border border-white/10 rounded-lg p-4 cursor-pointer hover:border-[#10B981]/50 hover:bg-[#10B981]/5 transition-all text-sm font-medium">
                      {goal}
                    </div>
                  ))}
@@ -86,7 +86,7 @@ export default function Onboarding({ onNavigate }) {
               <p className="text-[#8A8780] mb-8 leading-relaxed">Link your accounts securely to let our LangChain AI automatically categorize your expenses. You can also skip this and enter them manually.</p>
               
               <div className="space-y-4">
-                <button className="w-full bg-[#181818] border border-white/10 rounded-lg p-5 flex items-center justify-between hover:border-[#F5840C]/30 transition-colors text-left">
+                <button className="w-full bg-[#181818] border border-white/10 rounded-lg p-5 flex items-center justify-between hover:border-[#10B981]/30 transition-colors text-left">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-xl">🏦</div>
                     <div>
@@ -94,7 +94,7 @@ export default function Onboarding({ onNavigate }) {
                       <div className="text-xs text-[#8A8780]">HDFC, SBI, ICICI, etc. via Secure API</div>
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-[#F5840C]">Secure</span>
+                  <span className="text-xs font-bold text-[#10B981]">Secure</span>
                 </button>
 
                 <button className="w-full bg-[#181818] border border-white/10 rounded-lg p-5 flex items-center justify-between hover:border-white/30 transition-colors text-left">
@@ -116,28 +116,28 @@ export default function Onboarding({ onNavigate }) {
               <p className="text-[#8A8780] mb-8 leading-relaxed">How often do you want your AI assistant to check in with insights or warnings?</p>
               
               <div className="space-y-4">
-                <div className="flex items-center justify-between bg-[#181818] border border-white/10 rounded-lg p-4 hover:border-[#F5840C]/50 transition-colors cursor-pointer">
+                <div className="flex items-center justify-between bg-[#181818] border border-white/10 rounded-lg p-4 hover:border-[#10B981]/50 transition-colors cursor-pointer">
                   <div>
                     <div className="text-sm font-semibold">Only when breaking budget</div>
                     <div className="text-xs text-[#8A8780]">Zero nagging. Only alerts you on overspending.</div>
                   </div>
-                  <input type="radio" name="notifs" className="w-4 h-4 accent-[#F5840C]" defaultChecked />
+                  <input type="radio" name="notifs" className="w-4 h-4 accent-[#10B981]" defaultChecked />
                 </div>
                 
-                <div className="flex items-center justify-between bg-[#181818] border border-white/10 rounded-lg p-4 hover:border-[#F5840C]/50 transition-colors cursor-pointer">
+                <div className="flex items-center justify-between bg-[#181818] border border-white/10 rounded-lg p-4 hover:border-[#10B981]/50 transition-colors cursor-pointer">
                   <div>
                     <div className="text-sm font-semibold">Weekly summaries</div>
                     <div className="text-xs text-[#8A8780]">A Sunday morning brief on your week's spending.</div>
                   </div>
-                  <input type="radio" name="notifs" className="w-4 h-4 accent-[#F5840C]" />
+                  <input type="radio" name="notifs" className="w-4 h-4 accent-[#10B981]" />
                 </div>
                 
-                <div className="flex items-center justify-between bg-[#181818] border border-white/10 rounded-lg p-4 hover:border-[#F5840C]/50 transition-colors cursor-pointer">
+                <div className="flex items-center justify-between bg-[#181818] border border-white/10 rounded-lg p-4 hover:border-[#10B981]/50 transition-colors cursor-pointer">
                   <div>
                     <div className="text-sm font-semibold">Daily quick insights</div>
                     <div className="text-xs text-[#8A8780]">A very brief morning update on daily pace.</div>
                   </div>
-                  <input type="radio" name="notifs" className="w-4 h-4 accent-[#F5840C]" />
+                  <input type="radio" name="notifs" className="w-4 h-4 accent-[#10B981]" />
                 </div>
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function Onboarding({ onNavigate }) {
           
           <button 
             onClick={nextStep}
-            className="bg-[#F5840C] text-[#0A0A0A] px-8 py-3 rounded-lg font-bold hover:bg-[#F5840C]/90 hover:shadow-[0_4px_20px_rgba(245,132,12,0.3)] transition-all"
+            className="bg-[#10B981] text-[#0A0A0A] px-8 py-3 rounded-lg font-bold hover:bg-[#10B981]/90 hover:shadow-[0_4px_20px_rgba(16,185,129,0.3)] transition-all"
           >
             {step === 4 ? 'Go to Dashboard' : 'Continue'}
           </button>

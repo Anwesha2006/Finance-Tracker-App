@@ -25,19 +25,19 @@ export default function Wallet() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 dark:from-[#0f0a0a] dark:via-[#1a0f0f] dark:to-black p-6 space-y-6">
+    <div className="min-h-screen bg-background p-6 space-y-6">
 
       {/* HEADER */}
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Wallet</h1>
-          <p className="text-gray-500 dark:text-[#a89f9f] mt-2">
+          <p className="text-gray-500 dark:text-muted-foreground mt-2">
             Manage your accounts and payment methods.
           </p>
         </div>
 
         <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white 
-          bg-gradient-to-r from-orange-500 to-orange-600 
+          bg-gradient-to-r from-emerald-500 to-emerald-600 
           shadow-md  hover:scale-105 transition">
           <Plus size={20} />
           Add Account
@@ -45,7 +45,7 @@ export default function Wallet() {
       </div>
 
       {/* TOTAL BALANCE */}
-      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+      <div className="bg-gradient-to-br from-emerald-500 via-emerald-600 to-emerald-700 
         rounded-2xl p-8 text-white  border-white/10">
 
         <div className="flex justify-between items-start">
@@ -83,45 +83,45 @@ export default function Wallet() {
 
           {accounts.map((account) => (
             <div key={account.id}
-              className="bg-white/80 dark:bg-[#1a0f0f]/80 backdrop-blur-md 
-              border border-white/20 dark:border-[#2a1a1a] 
+              className="bg-white/80 dark:bg-card/80 backdrop-blur-md 
+              border border-white/20 dark:border-border 
               rounded-xl p-6 shadow-lg hover:shadow-xl hover:-translate-y-1 transition">
 
-              <div className="h-1 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mb-3"></div>
+              <div className="h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full mb-3"></div>
 
               <h3 className="font-semibold text-gray-900 dark:text-white">{account.name}</h3>
-              <p className="text-sm text-gray-500 dark:text-[#a89f9f]">{account.type}</p>
+              <p className="text-sm text-gray-500 dark:text-muted-foreground">{account.type}</p>
 
               <div className="mt-4">
-                <p className="text-sm text-gray-500 dark:text-[#a89f9f]">Balance</p>
-                <p className="text-2xl font-bold text-orange-500">
+                <p className="text-sm text-gray-500 dark:text-muted-foreground">Balance</p>
+                <p className="text-2xl font-bold text-emerald-500">
                   ₹{account.balance.toFixed(2)}
                 </p>
               </div>
 
-              <p className="text-sm text-gray-500 dark:text-[#a89f9f] mt-2">
+              <p className="text-sm text-gray-500 dark:text-muted-foreground mt-2">
                 •••• {account.last4}
               </p>
 
               <button className="w-full mt-4 py-2 rounded-lg text-sm border 
-                hover:bg-orange-50 dark:hover:bg-[#221212] transition">
+                hover:bg-emerald-50 dark:hover:bg-accent/10 transition">
                 View Details
               </button>
             </div>
           ))}
 
           {/* ADD ACCOUNT */}
-          <div className="bg-white/80 dark:bg-[#140a0a]/80 backdrop-blur-md 
-            border-2 border-dashed border-gray-300 dark:border-[#2a1a1a] 
+          <div className="bg-white/80 dark:bg-card/80 backdrop-blur-md 
+            border-2 border-dashed border-gray-300 dark:border-border 
             rounded-xl p-6 flex flex-col items-center justify-center 
-            hover:bg-orange-50 dark:hover:bg-[#221212] transition cursor-pointer">
+            hover:bg-emerald-50 dark:hover:bg-accent/10 transition cursor-pointer">
 
             <Plus size={32} className="text-gray-400 mb-2" />
             <h3 className="font-semibold">Add Account</h3>
             <p className="text-sm text-gray-500 mb-4">Connect a new bank account</p>
 
             <button className="px-4 py-2 rounded-lg text-white font-semibold 
-              bg-gradient-to-r from-orange-500 to-orange-600 
+              bg-gradient-to-r from-emerald-500 to-emerald-600 
               hover:scale-105 transition">
               Connect
             </button>
@@ -131,8 +131,8 @@ export default function Wallet() {
       </div>
 
       {/* SUMMARY */}
-      <div className="bg-white/80 dark:bg-[#1a0f0f]/80 backdrop-blur-md 
-        border border-white/20 dark:border-[#2a1a1a] 
+      <div className="bg-white/80 dark:bg-card/80 backdrop-blur-md 
+        border border-white/20 dark:border-border 
         rounded-xl p-6 shadow-lg">
 
         <h2 className="text-xl font-semibold mb-4">This Month Summary</h2>
@@ -154,7 +154,7 @@ export default function Wallet() {
 
           <div>
             <p className="text-sm text-gray-500">Savings</p>
-            <p className="text-xl font-bold text-orange-500">
+            <p className="text-xl font-bold text-emerald-500">
               ₹{summary.thisMonthSavings.toFixed(2)}
             </p>
           </div>
@@ -167,14 +167,14 @@ export default function Wallet() {
 
         {cards.map((card) => (
           <div key={card.id}
-            className="bg-white/80 dark:bg-[#1a0f0f]/80 backdrop-blur-md 
-            border border-white/20 dark:border-[#2a1a1a] 
+            className="bg-white/80 dark:bg-card/80 backdrop-blur-md 
+            border border-white/20 dark:border-border 
             rounded-xl p-5 flex justify-between items-center mb-3 
-            hover:bg-orange-50 dark:hover:bg-[#221212] transition">
+            hover:bg-emerald-50 dark:hover:bg-accent/10 transition">
 
             <div className="flex items-center gap-4">
               <div className="bg-gray-100 dark:bg-[#2a1a1a] p-3 rounded-lg">
-                <CreditCard size={24} className="text-orange-500" />
+                <CreditCard size={24} className="text-emerald-500" />
               </div>
 
               <div>
@@ -186,7 +186,7 @@ export default function Wallet() {
             </div>
 
             <div className="flex gap-3">
-              <button className="text-sm hover:text-orange-500">Edit</button>
+              <button className="text-sm hover:text-emerald-500">Edit</button>
 
               <button className="px-3 py-1 text-sm border border-red-500 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition">
                 Remove
@@ -199,13 +199,13 @@ export default function Wallet() {
     w-full flex items-center justify-center gap-2
     py-4 rounded-xl font-semibold text-sm
     border-2 border-dashed 
-    border-gray-300 dark:border-[#2a1a1a]
+    border-gray-300 dark:border-border
 
-    bg-white/70 dark:bg-[#140a0a]/70 backdrop-blur-md
+    bg-white/70 dark:bg-card/70 backdrop-blur-md
 
-    text-orange-500
+    text-emerald-500
 
-    hover:bg-orange-50 dark:hover:bg-[#221212]
+    hover:bg-emerald-50 dark:hover:bg-accent/10
     hover:scale-[1.02]
     transition-all duration-200
   ">
@@ -219,8 +219,8 @@ export default function Wallet() {
       <div>
         <h2 className="text-xl font-semibold mb-4">Connected Apps</h2>
 
-        <div className="bg-white/80 dark:bg-[#1a0f0f]/80 backdrop-blur-md 
-          border border-white/20 dark:border-[#2a1a1a] 
+        <div className="bg-white/80 dark:bg-card/80 backdrop-blur-md 
+          border border-white/20 dark:border-border 
           rounded-xl p-6">
 
           <p className="text-gray-500 mb-4">
@@ -228,7 +228,7 @@ export default function Wallet() {
           </p>
 
           <button className="px-4 py-2 rounded-lg text-white font-semibold 
-            bg-gradient-to-r from-orange-500 to-orange-600 
+            bg-gradient-to-r from-emerald-500 to-emerald-600 
             hover:scale-105 transition">
             Browse Apps
           </button>

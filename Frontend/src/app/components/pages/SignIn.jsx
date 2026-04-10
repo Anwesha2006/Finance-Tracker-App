@@ -117,14 +117,14 @@ export default function SignIn({ onNavigate }) {
       {/* Logo to go back to landing */}
       <button 
         onClick={() => onNavigate('landing')}
-        className="absolute top-8 left-8 text-2xl font-bold font-serif hover:text-[#F5840C] transition-colors"
+        className="absolute top-8 left-8 text-2xl font-bold font-serif hover:text-[#10B981] transition-colors"
       >
-        r4<span className="text-[#F5840C]">rupee</span>
+        r4<span className="text-[#10B981]">rupee</span>
       </button>
 
       <div className="w-full max-w-md p-8 bg-[#111111] rounded-2xl border border-white/10 shadow-2xl relative overflow-hidden">
         {/* Subtle glow effect */}
-        <div className="absolute -top-32 -right-32 w-64 h-64 bg-[#F5840C]/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -top-32 -right-32 w-64 h-64 bg-[#10B981]/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <h2 className="text-3xl font-serif italic mb-2">
           {isSignUp ? 'Create an account' : 'Welcome back'}
@@ -143,7 +143,7 @@ export default function SignIn({ onNavigate }) {
                required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#F5840C]/50 transition-colors"
+                className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors"
                 placeholder="John Doe"
               />
             </div>
@@ -157,7 +157,7 @@ export default function SignIn({ onNavigate }) {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#F5840C]/50 transition-colors"
+              className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors"
               placeholder="you@example.com"
             />
           </div>
@@ -165,7 +165,7 @@ export default function SignIn({ onNavigate }) {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="block text-xs font-semibold text-[#8A8780] uppercase tracking-widest">Password</label>
-              {!isSignUp && <a href="#" className="text-xs text-[#F5840C] hover:underline">Forgot?</a>}
+              {!isSignUp && <a href="#" className="text-xs text-[#10B981] hover:underline">Forgot?</a>}
             </div>
             <input 
               type="password" 
@@ -173,14 +173,14 @@ export default function SignIn({ onNavigate }) {
               required
               value={formData.password}
               onChange={handleChange}
-              className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#F5840C]/50 transition-colors"
+              className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors"
               placeholder="••••••••"
             />
           </div>
 
           <button 
             type="submit"
-            className="w-full bg-[#F5840C] text-[#0A0A0A] font-bold py-3 rounded-lg hover:bg-[#F5840C]/90 hover:shadow-[0_4px_20px_rgba(245,132,12,0.3)] transition-all mt-4"
+            className="w-full bg-[#10B981] text-[#0A0A0A] font-bold py-3 rounded-lg hover:bg-[#10B981]/90 hover:shadow-[0_4px_20px_rgba(16,185,129,0.3)] transition-all mt-4"
           >
             {isSignUp ? 'Sign Up' : 'Log In'}
           </button>
@@ -204,7 +204,7 @@ export default function SignIn({ onNavigate }) {
           <button 
             type="button"
             onClick={() => setIsSignUp(!isSignUp)} 
-            className="text-[#F2EFE8] font-medium hover:text-[#F5840C] transition-colors ml-1 border-none bg-transparent cursor-pointer"
+            className="text-[#F2EFE8] font-medium hover:text-[#10B981] transition-colors ml-1 border-none bg-transparent cursor-pointer"
           >
             {isSignUp ? 'Login' : 'Sign up'}
           </button>
