@@ -7,10 +7,22 @@ connectDB();
 
 const app = express();
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://192.168.1.41:3000',
+  'https://finance-tracker-app-p78e.vercel.app',
+  'https://r4rupee.onrender.com',
+];
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://192.168.1.41:3000'],
-  credentials: true
-}));
+  origin: (origin, callback) => {
+    // Allow requests with no origin like mobile apps or curl
+    if (!origin) return callback(null, true)
+    if (allowedOrigins.includes(origin)) return callback(null, true)
+    callback(new Error(`CORS policy does not allow access from origin ${origin}`))
+  },
+  credentials: true,
+}))
 app.use(express.json());
 
 app.use('/api/auth', require('./routes/auth.routes'));
