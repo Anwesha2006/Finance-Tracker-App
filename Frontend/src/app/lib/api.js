@@ -1,6 +1,6 @@
-// Central API service — all calls to http://localhost:5000/api
-
-const BASE = 'http://localhost:5000/api'
+// Central API service — backend URL is configurable via NEXT_PUBLIC_API_URL.
+// Deployed backend is hosted at https://r4rupee.onrender.com.
+const BASE = (process.env.NEXT_PUBLIC_API_URL || 'https://r4rupee.onrender.com').replace(/\/$/, '') + '/api'
 
 function getToken() {
   if (typeof window === 'undefined') return null
