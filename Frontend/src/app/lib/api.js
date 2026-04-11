@@ -24,7 +24,7 @@ function authHeaders() {
 
 async function handleResponse(res) {
   const data = await res.json()
-  if (!res.ok) throw new Error(data.message || 'Request failed')
+  if (!res.ok) throw new Error(data.message || data.error || 'Request failed')
   return data
 }
 

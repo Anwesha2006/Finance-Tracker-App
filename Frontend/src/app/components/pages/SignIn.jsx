@@ -101,11 +101,18 @@ export default function SignIn({ onNavigate }) {
     }
   };
   const handleGoogleAuth = () => {
-    signup('google_user@gmail.com', 'oauth');
+    login(
+      {
+        id: 'google_oauth_user',
+        name: 'Google User',
+        email: 'google_user@gmail.com',
+      },
+      'oauth'
+    );
     if (onNavigate) {
       onNavigate('onboarding');
     } else {
-      router.push("/onboarding");
+      router.push('/onboarding');
     }
   };
 
