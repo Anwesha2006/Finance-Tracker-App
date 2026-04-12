@@ -150,9 +150,10 @@ export default function SignIn({ onNavigate }) {
                required
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors"
+                className={`w-full bg-[#181818] border ${errors.name ? 'border-red-500' : 'border-white/10'} rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors`}
                 placeholder="John Doe"
               />
+              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
             </div>
           )}
           
@@ -164,9 +165,10 @@ export default function SignIn({ onNavigate }) {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors"
+              className={`w-full bg-[#181818] border ${errors.email ? 'border-red-500' : 'border-white/10'} rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors`}
               placeholder="you@example.com"
             />
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
           </div>
           
           <div>
@@ -180,16 +182,18 @@ export default function SignIn({ onNavigate }) {
               required
               value={formData.password}
               onChange={handleChange}
-              className="w-full bg-[#181818] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors"
+              className={`w-full bg-[#181818] border ${errors.password ? 'border-red-500' : 'border-white/10'} rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#10B981]/50 transition-colors`}
               placeholder="••••••••"
             />
+            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
           </div>
 
           <button 
             type="submit"
-            className="w-full bg-[#10B981] text-[#0A0A0A] font-bold py-3 rounded-lg hover:bg-[#10B981]/90 hover:shadow-[0_4px_20px_rgba(16,185,129,0.3)] transition-all mt-4"
+            disabled={isLoading}
+            className="w-full bg-[#10B981] text-[#0A0A0A] font-bold py-3 rounded-lg hover:bg-[#10B981]/90 hover:shadow-[0_4px_20px_rgba(16,185,129,0.3)] transition-all mt-4 disabled:opacity-75 disabled:cursor-not-allowed"
           >
-            {isSignUp ? 'Sign Up' : 'Log In'}
+            {isLoading ? 'Processing...' : (isSignUp ? 'Sign Up' : 'Log In')}
           </button>
         </form>
 
