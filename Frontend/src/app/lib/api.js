@@ -35,8 +35,8 @@ async function safeFetch(url, options) {
   try {
     res = await fetch(url, options)
   } catch {
-    // True network error — backend is down or unreachable
-    throw new Error('Backend unreachable. Make sure the server is running on port 5000.')
+    // True network error — backend is down, unreachable, or blocked by CORS
+    throw new Error('Network error: Backend is unreachable. If deployed, it may be asleep or blocked by CORS. If local, make sure it is running.')
   }
   return handleResponse(res)
 }
