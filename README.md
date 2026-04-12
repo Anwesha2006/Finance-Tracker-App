@@ -1,4 +1,4 @@
-# 💸 R4rupee – AI Powered Finance Tracker
+#  R4rupee – AI Powered Finance Tracker
 
 > Turning raw financial data into **insight, fairness, and smarter decisions**
 
